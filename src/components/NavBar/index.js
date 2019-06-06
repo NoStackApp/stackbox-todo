@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import LoginForm from '../LoginForm';
+
 const Wrapper = styled.div`
   left: 0;
   top: 0;
@@ -15,7 +17,9 @@ const Wrapper = styled.div`
 const NavBar = () => (
   <Wrapper>
     <div>no-stack todo</div>
-    <div>Login</div>
+    <div>
+      <LoginForm />
+    </div>
   </Wrapper>
 );
 
