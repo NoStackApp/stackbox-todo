@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import './App.css';
 import {v4} from 'uuid';
 
+import NavBar from './components/NavBar';
 import List from './components/List';
 import ListForm from './components/ListForm';
 
@@ -65,10 +66,13 @@ class App extends Component {
     const { lists } = this.state;
 
     return (
-      <Wrapper className="App">
-        <ListForm onSubmit={this.handleAddList} />
-        {lists.map(list => <List key={list.id} list={list} />)}
-      </Wrapper>
+      <>
+        <NavBar />
+        <Wrapper className="App">
+          <ListForm onSubmit={this.handleAddList} />
+          {lists.map(list => <List key={list.id} list={list} />)}
+        </Wrapper>
+      </>
     );
   }
 }
