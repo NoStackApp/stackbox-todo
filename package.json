@@ -1,0 +1,47 @@
+{
+  "name": "todo",
+  "version": "0.1.0",
+  "private": true,
+  "homepage": "https://remlampa.github.io/hooks-demo",
+  "dependencies": {
+    "apollo-cache-inmemory": "^1.6.0",
+    "apollo-client": "^2.6.0",
+    "apollo-fetch": "^0.7.0",
+    "apollo-link": "^1.2.11",
+    "apollo-link-context": "^1.0.17",
+    "apollo-link-http": "^1.5.14",
+    "axios": "^0.18.0",
+    "bootstrap": "^4.3.1",
+    "formik": "^1.5.7",
+    "gh-pages": "^2.0.1",
+    "graphql": "^14.3.1",
+    "graphql-tag": "^2.10.1",
+    "jsonwebtoken": "^8.5.1",
+    "no-stack": "git+ssh://git@github.com/Sparkhackers/no-stack",
+    "react": "^16.8.6",
+    "react-apollo": "^2.5.6",
+    "react-dom": "^16.8.6",
+    "react-graph-vis": "^1.0.2",
+    "react-scripts": "^3.0.1",
+    "react-spinkit": "^3.0.0",
+    "styled-components": "^4.2.0",
+    "typescript": "^3.4.5",
+    "uuid": "^3.3.2"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "deploy": "yarn build && gh-pages -d build"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
+}
