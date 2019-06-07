@@ -12,11 +12,12 @@ const Wrapper = styled.div`
   background-color: #00000f;
   display: flex;
   justify-content: space-between;
+  align-items: center;
 `;
 
 const NavBar = () => (
   <Wrapper>
-    <div>no-stack todo</div>
+    <div>stackbox todo</div>
     <div>
       <LoginForm />
     </div>

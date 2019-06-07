@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import { withLogin } from 'no-stack';
 
-const LoginForm = () => {
+const LoginForm = ({ currentUser, loading, login, logoutUser }) => {
   const [userName, updateUserName] = useState('');
   const [password, updatePassword] = useState('');
 
@@ -14,10 +15,31 @@ const LoginForm = () => {
     }
   }
 
-  function handleSubmit(e) {
+  async function handleLogin(e) {
     e.preventDefault();
 
-    console.log(userName, password);
+    try {
+      await login({ username: userName, password });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function handleLogout(e) {
+    await logoutUser();
+  }
+
+  if (loading) return null;
+
+  if (currentUser) {
+    return (
+      <button
+        type="button"
+        onClick={handleLogout}
+      >
+        Logout
+      </button>
+    );
   }
 
   return (
@@ -36,7 +58,7 @@ const LoginForm = () => {
       />
       <button
         type="submit"
-        onClick={handleSubmit}
+        onClick={handleLogin}
       >
         Login
       </button>
@@ -44,4 +66,4 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+export default withLogin(LoginForm);
