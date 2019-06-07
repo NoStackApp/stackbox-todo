@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import './App.css';
 import {v4} from 'uuid';
-import { LoginConsumer } from 'no-stack';
+import { NoStackConsumer } from 'no-stack';
 
 import NavBar from './components/NavBar';
 import List from './components/List';
@@ -70,7 +70,7 @@ class App extends Component {
       <>
         <NavBar />
         <Wrapper className="App">
-          <LoginConsumer>
+          <NoStackConsumer>
             {({ currentUser }) => {
               if (!currentUser) {
                 return <div>Please Log In</div>;
@@ -83,7 +83,7 @@ class App extends Component {
                 </>
               );
             }}
-          </LoginConsumer>
+          </NoStackConsumer>
         </Wrapper>
       </>
     );

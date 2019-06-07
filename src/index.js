@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { ApolloProvider } from 'react-apollo';
-import { LoginProvider } from 'no-stack';
+import { NoStackProvider } from 'no-stack';
 
 import { PLATFORM_ID } from './config';
 import './index.css';
@@ -12,9 +12,9 @@ import client from './client';
 
 ReactDOM.render(
   <ApolloProvider client={client}>
-    <LoginProvider platformId={PLATFORM_ID}>
+    <NoStackProvider platformId={PLATFORM_ID}>
       <App />
-    </LoginProvider>
+    </NoStackProvider>
   </ApolloProvider>,
   document.getElementById('root')
 );

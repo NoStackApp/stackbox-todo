@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { withLogin } from 'no-stack';
+import { withNoStack } from 'no-stack';
 
-const LoginForm = ({ currentUser, loading, login, logoutUser }) => {
+const LoginForm = ({ currentUser, loading, login, logout }) => {
   const [userName, updateUserName] = useState('');
   const [password, updatePassword] = useState('');
 
@@ -26,7 +26,7 @@ const LoginForm = ({ currentUser, loading, login, logoutUser }) => {
   }
 
   async function handleLogout(e) {
-    await logoutUser();
+    await logout();
   }
 
   if (loading) return null;
@@ -66,4 +66,4 @@ const LoginForm = ({ currentUser, loading, login, logoutUser }) => {
   );
 };
 
-export default withLogin(LoginForm);
+export default withNoStack(LoginForm);
