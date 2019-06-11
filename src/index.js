@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { ApolloProvider } from 'react-apollo';
-import { NoStackProvider } from 'no-stack';
+import { NoStackProvider, Console } from 'no-stack';
 
 import { PLATFORM_ID } from './config';
 import './index.css';
@@ -14,6 +14,7 @@ ReactDOM.render(
   <ApolloProvider client={client}>
     <NoStackProvider platformId={PLATFORM_ID}>
       <App />
+      <Console />
     </NoStackProvider>
   </ApolloProvider>,
   document.getElementById('root')
