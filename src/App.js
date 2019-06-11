@@ -71,7 +71,9 @@ class App extends Component {
         <NavBar />
         <Wrapper className="App">
           <NoStackConsumer>
-            {({ currentUser }) => {
+            {({ loading, currentUser }) => {
+              if (loading) return null;
+
               if (!currentUser) {
                 return <div>Please Log In</div>;
               }
