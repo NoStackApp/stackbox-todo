@@ -14,7 +14,7 @@ const Button = styled.button`
   margin-left: 1em;
 `;
 
-function ListForm({ onSubmit }) {
+function ProjectForm({ onSubmit }) {
   const [ listName, updateListName ] = useState('');
 
   const id = v4();
@@ -61,5 +61,5 @@ function ListForm({ onSubmit }) {
   );
 }
 
-export default ListForm;
+export default ProjectForm;
 

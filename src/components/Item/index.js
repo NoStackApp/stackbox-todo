@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { Source } from 'no-stack';
+
+import SOURCE_QUERY from '../SourceQuery';
 
 const Wrapper = styled.div`
   margin: 2em 1em;
@@ -22,6 +25,13 @@ const DoneItemDiv = styled.div`
 const Button = styled.button`
   margin-left: 1em;
 `;
+
+const sourceId = '00af5e79-199c-4f3b-a6ef-99e9d5ed6403';
+const typeHierarchy = {
+  'todo-item': null,
+};
+
+const unrestricted = false;
 
 function Item({ id, name, done, onDelete }) {
   const [ itemName, updateItemName ] = useState(name);
@@ -54,35 +64,56 @@ function Item({ id, name, done, onDelete }) {
     </Button>
   );
 
+  const parameters = {
+    itemId: id,
+  };
+
   return (
     <Wrapper>
       <div>
-        {itemDone ?
-          (
-            <DoneItemDiv onClick={handleItemClick}>
-              {itemName}
-              <DeleteButton />
-            </DoneItemDiv>
-          ) :
-          (
-            <div>
-              <label htmlFor={inputFieldId}>
-                Item Name:{' '}
-                <input
-                  id={inputFieldId}
-                  type="text"
-                  onChange={handleChange}
-                  onKeyPress={handleKeyPress}
-                  value={itemName}
-                />
+        <Source
+          id={sourceId}
+          typeHierarchy={typeHierarchy}
+          query={SOURCE_QUERY}
+          unrestricted={unrestricted}
+          parameters={parameters}
+        >
+          {({ loading, error, data }) => {
+            if (loading) return 'Loading...';
+
+            if (error) return `Error: ${error.graphQLErrors}`;
+
+            const isCompleted = data.sourceData.length ? data.sourceData[0].instance.value : false;
+
+            if (isCompleted) {
+              return (
+                <DoneItemDiv onClick={handleItemClick}>
+                  {itemName}
+                  <DeleteButton />
+                </DoneItemDiv>
+              ); 
+            }
+
+            return (
+              <div>
+                <label htmlFor={inputFieldId}>
+                  Item Name:{' '}
+                  <input
+                    id={inputFieldId}
+                    type="text"
+                    onChange={handleChange}
+                    onKeyPress={handleKeyPress}
+                    value={itemName}
+                  />
                   <Button type="button" onClick={handleItemClick}>
                     Done
                   </Button>
                   <DeleteButton />
-              </label>
-            </div>
-          )
-        }
+                </label>
+              </div>
+            );
+          }}
+        </Source>
       </div>
     </Wrapper>
   );
