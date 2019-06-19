@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import LoginForm from '../LoginForm';
+import { LogoutButton } from 'no-stack';
 
 const Wrapper = styled.div`
   left: 0;
@@ -19,7 +19,7 @@ const NavBar = () => (
   <Wrapper>
     <div>stackbox todo</div>
     <div>
-      <LoginForm />
+      <LogoutButton />
     </div>
   </Wrapper>
 );

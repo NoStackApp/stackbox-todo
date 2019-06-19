@@ -57,9 +57,7 @@ function Project({ project, onItemDelete }) {
                   key={item.id}
                   id={item.id}
                   done={item.done}
-                  name={item.name}
-                  childList={item.list}
-                  onDelete={onItemDelete}
+                  name={item.value}
                 />
               ))}
             </Items>
