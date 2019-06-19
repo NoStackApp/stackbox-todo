@@ -5,9 +5,9 @@ import ProjectForm from '../ProjectForm';
 import Project from '../Project';
 import SOURCE_QUERY from '../SourceQuery';
 
-const sourceId = '1d98749d-f52c-4259-8946-a82f425f258b';
+const sourceId = 'collection_platform_TestStack56_collection_user_Collection_source_projectSource';
 const typeHierarchy = {
-  'todo-project': null,
+  'tree_source_collection_platform_TestStack56_collection_user_Collection_source_projectSource_tree_projectSource_Tree_type_project': null,
 };
 
 const unrestricted = false;
@@ -30,8 +30,17 @@ const Projects = () => (
 
       return (
         <>
-          { /*<ProjectForm onSubmit={onAdd} /> */ }
-          {projects && projects.map(project => <Project key={project.id} project={project} />)}
+          <ProjectForm queryVariables={{
+            id: sourceId,
+            typeHierarchy: JSON.stringify(typeHierarchy),
+            unrestricted,
+            parameters: JSON.stringify(parameters),
+          }} />
+          {
+            projects && projects.map(project => (
+              <Project key={project.id} project={project} />
+            ))
+          }
         </>
       );
     }}

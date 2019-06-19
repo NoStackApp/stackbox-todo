@@ -46,8 +46,6 @@ function Project({ project, onItemDelete }) {
 
           if (error) return `Error: ${error.graphQLErrors}`;
 
-          console.log(data);
-
           const items = data.sourceData.map(el => el.instance);
 
           return (
