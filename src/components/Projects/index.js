@@ -5,9 +5,9 @@ import ProjectForm from '../ProjectForm';
 import Project from '../Project';
 import SOURCE_QUERY from '../SourceQuery';
 
-const sourceId = 'collection_platform_TestStack56_collection_user_Collection_source_projectSource';
+const sourceId = 'collection_platform_TestStack94_collection_user_Collection_source_projectSource';
 const typeHierarchy = {
-  'tree_source_collection_platform_TestStack56_collection_user_Collection_source_projectSource_tree_projectSource_Tree_type_project': null,
+  'tree_source_collection_platform_TestStack94_collection_user_Collection_source_projectSource_tree_projectSource_Tree_type_project': null,
 };
 
 const unrestricted = false;

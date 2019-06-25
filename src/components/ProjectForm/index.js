@@ -38,7 +38,7 @@ function ProjectForm({ createProject, currentUser, queryVariables }) {
     await createProject({
       variables: {
         // Create Project action
-        actionId: 'c685b342-0632-4c97-a76c-0206357b6ce3',
+        actionId: 'c6042931-4afb-4504-9b9b-9e0156320d40',
         executionParameters: JSON.stringify({
           parentInstanceId: currentUser.id,
           value: projectName,
@@ -57,7 +57,7 @@ function ProjectForm({ createProject, currentUser, queryVariables }) {
 
         const newProject = {
           instance: {
-            id: data.id,
+            id: data.instanceId,
             value: data.value,
             __typename: 'Instance',
           },

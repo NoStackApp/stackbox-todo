@@ -20,15 +20,15 @@ const Items = styled.div`
   justify-content: space-evenly;
 `;
 
-const sourceId = '63485e99-39c0-4241-9796-7288cd5b7f44';
+const sourceId = 'collection_platform_TestStack94_collection_user_Collection_source_toDoSource';
 const typeHierarchy = {
-  'todo-item': {},
+  'tree_source_collection_platform_TestStack94_collection_user_Collection_source_toDoSource_tree_toDoSource_Tree_type_toDo': null, 
 };
 const unrestricted = false;
 
 function Project({ project, onItemDelete }) {
   const parameters = {
-    projectId: project.id
+    currentProjectId: project.id
   };
 
   return (
@@ -49,16 +49,24 @@ function Project({ project, onItemDelete }) {
           const items = data.sourceData.map(el => el.instance);
 
           return (
-            <Items>
-              {items.map(item => (
-                <Item 
-                  key={item.id}
-                  id={item.id}
-                  done={item.done}
-                  name={item.value}
-                />
-              ))}
-            </Items>
+            <>
+              <ItemForm projectId={project.id} queryVariables={{
+                id: sourceId,
+                typeHierarchy: JSON.stringify(typeHierarchy),
+                unrestricted,
+                parameters: JSON.stringify(parameters),
+              }}/>
+              <Items>
+                {items.map(item => (
+                  <Item 
+                    key={item.id}
+                    id={item.id}
+                    done={item.done}
+                    name={item.value}
+                  />
+                ))}
+              </Items>
+            </>
           );
         }}
       </Source>

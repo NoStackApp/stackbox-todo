@@ -12,7 +12,7 @@ import client from './client';
 
 ReactDOM.render(
   <ApolloProvider client={client}>
-    <NoStackProvider platformId={PLATFORM_ID}>
+    <NoStackProvider client={client} platformId={PLATFORM_ID}>
       <App />
       <Console />
     </NoStackProvider>

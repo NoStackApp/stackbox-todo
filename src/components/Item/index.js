@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Source } from 'no-stack';
+import { Source, EXECUTE_ACTION } from 'no-stack';
+import { graphql } from 'react-apollo';
 
 import SOURCE_QUERY from '../SourceQuery';
 
@@ -26,19 +27,18 @@ const Button = styled.button`
   margin-left: 1em;
 `;
 
-const sourceId = '00af5e79-199c-4f3b-a6ef-99e9d5ed6403';
+const sourceId = 'collection_platform_TestStack94_collection_user_Collection_source_isCompletedSource';
 const typeHierarchy = {
-  'todo-item': null,
+  'tree_source_collection_platform_TestStack94_collection_user_Collection_source_isCompletedSource_tree_isCompletedSource_Tree_type_isCompleted': null,
 };
 
 const unrestricted = false;
 
-function Item({ id, name, done, onDelete }) {
+function Item({ id, name, updateIsCompleted }) {
   const [ itemName, updateItemName ] = useState(name);
-  const [ itemDone, updateItemDone ] = useState(done);
 
   function handleChange(e) {
-    updateItemName(e.target.value);
+    // updateItemName(e.target.value);
   }
 
   function handleKeyPress(e) {
@@ -46,26 +46,30 @@ function Item({ id, name, done, onDelete }) {
   }
 
   function handleItemClick() {
-    updateItemDone(!itemDone);
+
   }
 
-  function handleDelete() {
-    onDelete(id);
+  function handleDone(id) {
+    console.log(id);
   }
+
+  // function handleDelete() {
+  //   onDelete(id);
+  // }
 
   const inputFieldId = `item-name-${id}`
 
-  const DeleteButton = () => (
-    <Button
-      type="button"
-      onClick={handleDelete}
-    >
-      Remove
-    </Button>
-  );
+  // const DeleteButton = () => (
+  //   <Button
+  //     type="button"
+  //     onClick={handleDelete}
+  //   >
+  //     Remove
+  //   </Button>
+  // );
 
   const parameters = {
-    itemId: id,
+    currentToDoId: id,
   };
 
   return (
@@ -83,21 +87,20 @@ function Item({ id, name, done, onDelete }) {
 
             if (error) return `Error: ${error.graphQLErrors}`;
 
-            const isCompleted = data.sourceData.length ? data.sourceData[0].instance.value : false;
+            const isCompleted = data.sourceData.length > 0 && data.sourceData[0].instance.value === 'true';
 
             if (isCompleted) {
               return (
                 <DoneItemDiv onClick={handleItemClick}>
                   {itemName}
-                  <DeleteButton />
                 </DoneItemDiv>
-              ); 
+              );
             }
 
             return (
               <div>
                 <label htmlFor={inputFieldId}>
-                  Item Name:{' '}
+                  Item Name:
                   <input
                     id={inputFieldId}
                     type="text"
@@ -105,10 +108,9 @@ function Item({ id, name, done, onDelete }) {
                     onKeyPress={handleKeyPress}
                     value={itemName}
                   />
-                  <Button type="button" onClick={handleItemClick}>
+                  <Button type="button" onClick={() => handleDone(data.sourceData[0].instance.id)}>
                     Done
                   </Button>
-                  <DeleteButton />
                 </label>
               </div>
             );
@@ -119,4 +121,4 @@ function Item({ id, name, done, onDelete }) {
   );
 }
 
-export default Item;
+export default graphql(EXECUTE_ACTION, 'updateIsCompleted')(Item);

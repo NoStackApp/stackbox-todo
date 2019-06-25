@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { v4 } from 'uuid';
+import { graphql, compose } from 'react-apollo';
+
+import { EXECUTE_ACTION } from 'no-stack';
+
+import SOURCE_QUERY from '../SourceQuery.js';
 
 const Form = styled.div`
   margin: 2em;
@@ -14,7 +19,7 @@ const Button = styled.button`
   margin-left: 1em;
 `;
 
-function ItemForm({ onSubmit }) {
+function ItemForm({ projectId, createItem, createIsCompleted, queryVariables }) {
   const [ itemName, updateItemName ] = useState('');
 
   const id = v4();
@@ -24,21 +29,68 @@ function ItemForm({ onSubmit }) {
     updateItemName(e.target.value);
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
 
     if (!itemName) {
       return;
     }
 
-    const item = {
-      id,
-      name: itemName,
-      done: false,
-      list: [],
-    };
+    await createItem({
+      variables: {
+        // create todo action
+        actionId: '93896d59-ee02-43ef-9ec5-62922e3770a8',
+        executionParameters: JSON.stringify({
+          parentInstanceId: projectId,
+          value: itemName,
+        }),
+        unrestricted: false,
+      },
+      update: (cache, { data: { ExecuteAction } }) => {
+        const data = JSON.parse(ExecuteAction);
 
-    onSubmit(item);
+        createIsCompleted({
+          variables: {
+            //create isCompleted action
+            actionId: '3dbde54d-f766-4d55-b918-7621167fe032',
+              executionParameters: JSON.stringify({
+                parentInstanceId: data.instanceId,
+                value: 'false',
+              }),
+              unrestricted: false, 
+          },
+          update: () => {
+            const { sourceData } = cache.readQuery({
+              query: SOURCE_QUERY,
+              variables: {
+                ...queryVariables,
+              },
+            });
+
+            console.log(sourceData);
+
+            const newItem = {
+              instance: {
+                id: data.instanceId,
+                value: data.value,
+                __typename: 'Instance',
+              },
+              __typename: 'InstanceWithChildren',
+            };
+
+            cache.writeQuery({
+              query: SOURCE_QUERY,
+              variables: {
+                ...queryVariables,
+              },
+              data: {
+                sourceData: [ newItem, ...sourceData ],
+              },
+            });
+          }
+        });
+      }, 
+    });
   }
 
   function handleKeyPress(e) {
@@ -52,6 +104,7 @@ function ItemForm({ onSubmit }) {
       <label htmlFor={inputFieldId}>
         Item Name:{' '}
         <input 
+          id={inputFieldId}
           type="text"
           onChange={handleChange}
           onKeyPress={handleKeyPress}
@@ -62,4 +115,7 @@ function ItemForm({ onSubmit }) {
   );
 }
 
-export default ItemForm;
+export default compose(
+  graphql(EXECUTE_ACTION, { name: 'createItem' }),
+  graphql(EXECUTE_ACTION, { name: 'createIsCompleted' }),
+)(ItemForm);
