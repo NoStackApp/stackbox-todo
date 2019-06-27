@@ -1,13 +1,35 @@
 import React from 'react';
 import { Source } from 'no-stack';
+import gql from 'graphql-tag';
 
 import ProjectForm from '../ProjectForm';
 import Project from '../Project';
-import SOURCE_QUERY from '../SourceQuery';
 
-const sourceId = 'collection_platform_TestStack94_collection_user_Collection_source_projectSource';
+import { SOURCE_PROJECTSOURCE_ID, TYPE_PROJECT_ID } from '../../config';
+
+const SOURCE_QUERY = gql`
+  query SOURCE(
+    $id: ID!
+    $typeHierarchy: String!
+    $unrestricted: Boolean!
+    $parameters: String
+  ) {
+    sourceData(
+      sourceId: $id
+      typeHierarchy: $typeHierarchy
+      unrestricted: $unrestricted
+      parameters: $parameters
+    ) {
+      instance {
+        id
+        value
+      }
+    }
+  }
+`;
+
 const typeHierarchy = {
-  'tree_source_collection_platform_TestStack94_collection_user_Collection_source_projectSource_tree_projectSource_Tree_type_project': null,
+  [TYPE_PROJECT_ID]: null,
 };
 
 const unrestricted = false;
@@ -15,13 +37,13 @@ const parameters = {};
 
 const Projects = () => (
   <Source
-    id={sourceId}
+    id={SOURCE_PROJECTSOURCE_ID}
     typeHierarchy={typeHierarchy}
     query={SOURCE_QUERY}
     unrestricted={unrestricted}
     parameters={parameters}
   >
-    {({ loading, error, data }) => {
+    {({ loading, error, data, updateSourceAfterCreateAction }) => {
       if (loading) return 'Loading...';
 
       if (error) return `Error: ${error.graphQLErrors}`;
@@ -30,12 +52,7 @@ const Projects = () => (
 
       return (
         <>
-          <ProjectForm queryVariables={{
-            id: sourceId,
-            typeHierarchy: JSON.stringify(typeHierarchy),
-            unrestricted,
-            parameters: JSON.stringify(parameters),
-          }} />
+          <ProjectForm onAdd={updateSourceAfterCreateAction} />
           {
             projects && projects.map(project => (
               <Project key={project.id} project={project} />

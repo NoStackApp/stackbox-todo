@@ -1,10 +1,41 @@
 import React from 'react';
 import styled from 'styled-components';
+import gql from 'graphql-tag';
 import { Source } from 'no-stack';
 
 import Item from '../Item';
 import ItemForm from '../ItemForm';
-import SOURCE_QUERY from '../SourceQuery';
+
+import { SOURCE_TODOSOURCE_ID, TYPE_TODO_ID, TYPE_ISCOMPLETED_ID } from '../../config';
+import { TODO_FRAGMENT, IS_COMPLETED_FRAGMENT } from './fragments';
+
+const TODO_QUERY = gql`
+  query SOURCE(
+    $id: ID!
+    $typeHierarchy: String!
+    $unrestricted: Boolean!
+    $parameters: String
+  ) {
+    sourceData(
+      sourceId: $id
+      typeHierarchy: $typeHierarchy
+      unrestricted: $unrestricted
+      parameters: $parameters
+    ) {
+      instance {
+        ...TodoParts
+      }
+      children {
+        instance {
+          ...IsCompletedParts
+        }
+      }
+    }
+  }
+
+  ${TODO_FRAGMENT}
+  ${IS_COMPLETED_FRAGMENT}
+`;
 
 const Wrapper = styled.div`
   margin: 2em 1em;
@@ -20,9 +51,10 @@ const Items = styled.div`
   justify-content: space-evenly;
 `;
 
-const sourceId = 'collection_platform_TestStack94_collection_user_Collection_source_toDoSource';
 const typeHierarchy = {
-  'tree_source_collection_platform_TestStack94_collection_user_Collection_source_toDoSource_tree_toDoSource_Tree_type_toDo': null, 
+  [TYPE_TODO_ID]: {
+    [TYPE_ISCOMPLETED_ID]: null,
+  },
 };
 const unrestricted = false;
 
@@ -35,34 +67,32 @@ function Project({ project, onItemDelete }) {
     <Wrapper>
       <h3>{project.value}</h3>
       <Source
-        id={sourceId}
+        id={SOURCE_TODOSOURCE_ID}
         typeHierarchy={typeHierarchy}
-        query={SOURCE_QUERY}
+        query={TODO_QUERY}
         unrestricted={unrestricted}
         parameters={parameters}
       >
-        {({ loading, error, data }) => {
+        {({ loading, error, data, updateSourceAfterCreateAction}) => {
           if (loading) return 'Loading...';
 
           if (error) return `Error: ${error.graphQLErrors}`;
 
-          const items = data.sourceData.map(el => el.instance);
+          const items = data.sourceData.map(el => ({
+            ...el.instance,
+            isCompleted: el.children[0].instance,
+          }));
 
           return (
             <>
-              <ItemForm projectId={project.id} queryVariables={{
-                id: sourceId,
-                typeHierarchy: JSON.stringify(typeHierarchy),
-                unrestricted,
-                parameters: JSON.stringify(parameters),
-              }}/>
+              <ItemForm projectId={project.id} onAdd={updateSourceAfterCreateAction} />
               <Items>
                 {items.map(item => (
                   <Item 
                     key={item.id}
                     id={item.id}
-                    done={item.done}
                     name={item.value}
+                    isCompleted={item.isCompleted}
                   />
                 ))}
               </Items>

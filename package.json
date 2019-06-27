@@ -2,7 +2,7 @@
   "name": "todo",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://remlampa.github.io/hooks-demo",
+  "homepage": "https://nostackapp.github.io/stackbox-todo/",
   "dependencies": {
     "apollo-cache-inmemory": "^1.6.1",
     "apollo-client": "^2.6.1",

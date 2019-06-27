@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Source, EXECUTE_ACTION } from 'no-stack';
+import { EXECUTE_ACTION } from 'no-stack';
 import { graphql } from 'react-apollo';
 
-import SOURCE_QUERY from '../SourceQuery';
+import { UPDATE_TODO_ACTION_ID, UPDATE_ISCOMPLETED_ACTION_ID } from '../../config';
+import { TODO_FRAGMENT, IS_COMPLETED_FRAGMENT } from '../Project/fragments';
 
 const Wrapper = styled.div`
   margin: 2em 1em;
@@ -27,98 +28,109 @@ const Button = styled.button`
   margin-left: 1em;
 `;
 
-const sourceId = 'collection_platform_TestStack94_collection_user_Collection_source_isCompletedSource';
-const typeHierarchy = {
-  'tree_source_collection_platform_TestStack94_collection_user_Collection_source_isCompletedSource_tree_isCompletedSource_Tree_type_isCompleted': null,
-};
-
-const unrestricted = false;
-
-function Item({ id, name, updateIsCompleted }) {
+function Item({ id, name, isCompleted, updateInstance }) {
   const [ itemName, updateItemName ] = useState(name);
 
-  function handleChange(e) {
-    // updateItemName(e.target.value);
+  function handleItemNameChange(e) {
+    updateItemName(e.target.value);
   }
 
-  function handleKeyPress(e) {
-    console.log(e.charCode);
+  async function handleItemNameSave() {
+    await updateInstance({
+      variables: {
+        actionId: UPDATE_TODO_ACTION_ID,
+        executionParameters: JSON.stringify({
+          value: itemName,
+          instanceId: id,
+        }),
+        update: (cache, { data: ExecuteAction }) => {
+          const data = JSON.parse(ExecuteAction);
+
+          cache.writeFragment({
+            id,
+            fragment: TODO_FRAGMENT,
+            data: {
+              id,
+              value: data.value,
+              __typename: 'Instance',
+            },
+          });
+        },
+      },
+    })
   }
 
-  function handleItemClick() {
-
+  function handleKeyDown(e) {
+    if (e.key === 'Enter') {
+      handleItemNameSave();
+    }
   }
 
-  function handleDone(id) {
-    console.log(id);
-  }
+  async function handleUpdateCompletion(completed) {
+    await updateInstance({
+      variables: {
+        actionId: UPDATE_ISCOMPLETED_ACTION_ID,
+        executionParameters: JSON.stringify({
+          value: completed,
+          instanceId: isCompleted.id,
+        }),
+        unrestricted: false,
+      },
+      optimisticResponse: {
+        ExecuteAction: JSON.stringify({
+          id: isCompleted.id,
+          value: completed,
+        })
+      },
+      update: (cache, { data: { ExecuteAction } }) => {
+        const data = JSON.parse(ExecuteAction);
 
-  // function handleDelete() {
-  //   onDelete(id);
-  // }
+        cache.writeFragment({
+          id: isCompleted.id,
+          fragment: IS_COMPLETED_FRAGMENT,
+          data: {
+            id: isCompleted.id,
+            value: data.value,
+            __typename: "Instance",
+          },
+        });
+      }
+    });
+  }
 
   const inputFieldId = `item-name-${id}`
-
-  // const DeleteButton = () => (
-  //   <Button
-  //     type="button"
-  //     onClick={handleDelete}
-  //   >
-  //     Remove
-  //   </Button>
-  // );
-
-  const parameters = {
-    currentToDoId: id,
-  };
 
   return (
     <Wrapper>
       <div>
-        <Source
-          id={sourceId}
-          typeHierarchy={typeHierarchy}
-          query={SOURCE_QUERY}
-          unrestricted={unrestricted}
-          parameters={parameters}
-        >
-          {({ loading, error, data }) => {
-            if (loading) return 'Loading...';
-
-            if (error) return `Error: ${error.graphQLErrors}`;
-
-            const isCompleted = data.sourceData.length > 0 && data.sourceData[0].instance.value === 'true';
-
-            if (isCompleted) {
-              return (
-                <DoneItemDiv onClick={handleItemClick}>
-                  {itemName}
-                </DoneItemDiv>
-              );
-            }
-
-            return (
-              <div>
-                <label htmlFor={inputFieldId}>
-                  Item Name:
-                  <input
-                    id={inputFieldId}
-                    type="text"
-                    onChange={handleChange}
-                    onKeyPress={handleKeyPress}
-                    value={itemName}
-                  />
-                  <Button type="button" onClick={() => handleDone(data.sourceData[0].instance.id)}>
-                    Done
-                  </Button>
-                </label>
-              </div>
-            );
-          }}
-        </Source>
+        {isCompleted.value === 'true' ?
+          (
+            <DoneItemDiv onClick={() => handleUpdateCompletion('false')}>
+              {itemName}
+            </DoneItemDiv>
+          ) :
+          (
+            <div>
+              <label htmlFor={inputFieldId}>
+                Item Name:
+                <input
+                  id={inputFieldId}
+                  type="text"
+                  value={itemName}
+                  onChange={handleItemNameChange}
+                  onBlur={handleItemNameSave}
+                  onKeyDown={handleKeyDown}
+                />
+                <Button type="button" onClick={() => handleUpdateCompletion('true')}>
+                  Mark as Done
+                </Button>
+              </label>
+            </div>
+          )
+        }
       </div>
     </Wrapper>
   );
 }
 
-export default graphql(EXECUTE_ACTION, 'updateIsCompleted')(Item);
+export default graphql(EXECUTE_ACTION, { name: 'updateInstance' })(Item);

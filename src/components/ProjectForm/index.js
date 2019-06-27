@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { v4 } from 'uuid';
 import { withNoStack, EXECUTE_ACTION } from 'no-stack';
 
-import SOURCE_QUERY from '../SourceQuery.js';
+import { CREATE_PROJECT_FOR_USER_ACTION_ID } from '../../config';
 
 const Form = styled.div`
   margin: 2em;
@@ -18,7 +18,7 @@ const Button = styled.button`
   margin-left: 1em;
 `;
 
-function ProjectForm({ createProject, currentUser, queryVariables }) {
+function ProjectForm({ createProject, currentUser, onAdd }) {
   const [ projectName, updateProjectName ] = useState('');
 
   const id = v4();
@@ -38,42 +38,14 @@ function ProjectForm({ createProject, currentUser, queryVariables }) {
     await createProject({
       variables: {
         // Create Project action
-        actionId: 'c6042931-4afb-4504-9b9b-9e0156320d40',
+        actionId: CREATE_PROJECT_FOR_USER_ACTION_ID,
         executionParameters: JSON.stringify({
           parentInstanceId: currentUser.id,
           value: projectName,
         }),
         unrestricted: false,
       },
-      update: (cache, { data: { ExecuteAction } }) => {
-        const data = JSON.parse(ExecuteAction);
-
-        const { sourceData } = cache.readQuery({ 
-          query: SOURCE_QUERY,
-          variables: {
-            ...queryVariables,
-          },
-        });
-
-        const newProject = {
-          instance: {
-            id: data.instanceId,
-            value: data.value,
-            __typename: 'Instance',
-          },
-          __typename: 'InstanceWithChildren',
-        };
-
-        cache.writeQuery({
-          query: SOURCE_QUERY,
-          variables: {
-            ...queryVariables,
-          },
-          data: {
-            sourceData: [ newProject, ...sourceData ],
-          },
-        });
-      }
+      update: onAdd,
     });
   }
 

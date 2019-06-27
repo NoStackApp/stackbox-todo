@@ -5,7 +5,7 @@ import { graphql, compose } from 'react-apollo';
 
 import { EXECUTE_ACTION } from 'no-stack';
 
-import SOURCE_QUERY from '../SourceQuery.js';
+import { CREATE_TODO_FOR_PROJECT_ACTION_ID, CREATE_ISCOMPLETED_FOR_TODO_ACTION_ID } from '../../config';
 
 const Form = styled.div`
   margin: 2em;
@@ -19,7 +19,7 @@ const Button = styled.button`
   margin-left: 1em;
 `;
 
-function ItemForm({ projectId, createItem, createIsCompleted, queryVariables }) {
+function ItemForm({ projectId, createItem, createIsCompleted, onAdd }) {
   const [ itemName, updateItemName ] = useState('');
 
   const id = v4();
@@ -38,21 +38,19 @@ function ItemForm({ projectId, createItem, createIsCompleted, queryVariables }) 
 
     await createItem({
       variables: {
-        // create todo action
-        actionId: '93896d59-ee02-43ef-9ec5-62922e3770a8',
+        actionId: CREATE_TODO_FOR_PROJECT_ACTION_ID, 
         executionParameters: JSON.stringify({
           parentInstanceId: projectId,
           value: itemName,
         }),
         unrestricted: false,
       },
-      update: (cache, { data: { ExecuteAction } }) => {
-        const data = JSON.parse(ExecuteAction);
+      update: (cache, response) => {
+        const data = JSON.parse(response.data.ExecuteAction);
 
         createIsCompleted({
           variables: {
-            //create isCompleted action
-            actionId: '3dbde54d-f766-4d55-b918-7621167fe032',
+            actionId: CREATE_ISCOMPLETED_FOR_TODO_ACTION_ID,
               executionParameters: JSON.stringify({
                 parentInstanceId: data.instanceId,
                 value: 'false',
@@ -60,33 +58,7 @@ function ItemForm({ projectId, createItem, createIsCompleted, queryVariables }) 
               unrestricted: false, 
           },
           update: () => {
-            const { sourceData } = cache.readQuery({
-              query: SOURCE_QUERY,
-              variables: {
-                ...queryVariables,
-              },
-            });
-
-            console.log(sourceData);
-
-            const newItem = {
-              instance: {
-                id: data.instanceId,
-                value: data.value,
-                __typename: 'Instance',
-              },
-              __typename: 'InstanceWithChildren',
-            };
-
-            cache.writeQuery({
-              query: SOURCE_QUERY,
-              variables: {
-                ...queryVariables,
-              },
-              data: {
-                sourceData: [ newItem, ...sourceData ],
-              },
-            });
+            onAdd(cache, response);
           }
         });
       }, 
