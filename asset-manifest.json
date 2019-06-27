@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/hooks-demo/static/css/main.584f321a.chunk.css",
-    "main.js": "/hooks-demo/static/js/main.952f6469.chunk.js",
-    "main.js.map": "/hooks-demo/static/js/main.952f6469.chunk.js.map",
-    "runtime~main.js": "/hooks-demo/static/js/runtime~main.810a7101.js",
-    "runtime~main.js.map": "/hooks-demo/static/js/runtime~main.810a7101.js.map",
-    "static/css/2.1fdee0c4.chunk.css": "/hooks-demo/static/css/2.1fdee0c4.chunk.css",
-    "static/js/2.3d7bea7d.chunk.js": "/hooks-demo/static/js/2.3d7bea7d.chunk.js",
-    "static/js/2.3d7bea7d.chunk.js.map": "/hooks-demo/static/js/2.3d7bea7d.chunk.js.map",
-    "index.html": "/hooks-demo/index.html",
-    "precache-manifest.a508b60266a7704edc3cc2474d53be92.js": "/hooks-demo/precache-manifest.a508b60266a7704edc3cc2474d53be92.js",
-    "service-worker.js": "/hooks-demo/service-worker.js",
-    "static/css/2.1fdee0c4.chunk.css.map": "/hooks-demo/static/css/2.1fdee0c4.chunk.css.map",
-    "static/css/main.584f321a.chunk.css.map": "/hooks-demo/static/css/main.584f321a.chunk.css.map"
+    "main.css": "/stackbox-todo/static/css/main.584f321a.chunk.css",
+    "main.js": "/stackbox-todo/static/js/main.1a370082.chunk.js",
+    "main.js.map": "/stackbox-todo/static/js/main.1a370082.chunk.js.map",
+    "runtime~main.js": "/stackbox-todo/static/js/runtime~main.66c621e9.js",
+    "runtime~main.js.map": "/stackbox-todo/static/js/runtime~main.66c621e9.js.map",
+    "static/css/2.1fdee0c4.chunk.css": "/stackbox-todo/static/css/2.1fdee0c4.chunk.css",
+    "static/js/2.489417ff.chunk.js": "/stackbox-todo/static/js/2.489417ff.chunk.js",
+    "static/js/2.489417ff.chunk.js.map": "/stackbox-todo/static/js/2.489417ff.chunk.js.map",
+    "index.html": "/stackbox-todo/index.html",
+    "precache-manifest.4a7dba58489b32ac56d9e7fe797ed724.js": "/stackbox-todo/precache-manifest.4a7dba58489b32ac56d9e7fe797ed724.js",
+    "service-worker.js": "/stackbox-todo/service-worker.js",
+    "static/css/2.1fdee0c4.chunk.css.map": "/stackbox-todo/static/css/2.1fdee0c4.chunk.css.map",
+    "static/css/main.584f321a.chunk.css.map": "/stackbox-todo/static/css/main.584f321a.chunk.css.map"
   }
 }
