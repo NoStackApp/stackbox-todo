@@ -73,7 +73,7 @@ function Project({ project, onItemDelete }) {
         unrestricted={unrestricted}
         parameters={parameters}
       >
-        {({ loading, error, data, updateSourceAfterCreateAction}) => {
+        {({ loading, error, data, updateSourceAfterCreateAction, updateSourceAfterUpdateAction}) => {
           if (loading) return 'Loading...';
 
           if (error) return `Error: ${error.graphQLErrors}`;
@@ -93,6 +93,7 @@ function Project({ project, onItemDelete }) {
                     id={item.id}
                     name={item.value}
                     isCompleted={item.isCompleted}
+                    onUpdate={updateSourceAfterUpdateAction}
                   />
                 ))}
               </Items>

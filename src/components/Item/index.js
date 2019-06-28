@@ -28,7 +28,7 @@ const Button = styled.button`
   margin-left: 1em;
 `;
 
-function Item({ id, name, isCompleted, updateInstance }) {
+function Item({ id, name, isCompleted, updateInstance, onUpdate }) {
   const [ itemName, updateItemName ] = useState(name);
 
   function handleItemNameChange(e) {
@@ -43,19 +43,7 @@ function Item({ id, name, isCompleted, updateInstance }) {
           value: itemName,
           instanceId: id,
         }),
-        update: (cache, { data: ExecuteAction }) => {
-          const data = JSON.parse(ExecuteAction);
-
-          cache.writeFragment({
-            id,
-            fragment: TODO_FRAGMENT,
-            data: {
-              id,
-              value: data.value,
-              __typename: 'Instance',
-            },
-          });
-        },
+        update: onUpdate(id, TODO_FRAGMENT),
       },
     })
   }
@@ -82,19 +70,7 @@ function Item({ id, name, isCompleted, updateInstance }) {
           value: completed,
         })
       },
-      update: (cache, { data: { ExecuteAction } }) => {
-        const data = JSON.parse(ExecuteAction);
-
-        cache.writeFragment({
-          id: isCompleted.id,
-          fragment: IS_COMPLETED_FRAGMENT,
-          data: {
-            id: isCompleted.id,
-            value: data.value,
-            __typename: "Instance",
-          },
-        });
-      }
+      update: onUpdate(isCompleted.id, IS_COMPLETED_FRAGMENT),
     });
   }
 

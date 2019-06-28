@@ -36,7 +36,7 @@ function ItemForm({ projectId, createItem, createIsCompleted, onAdd }) {
       return;
     }
 
-    await createItem({
+    const createItemResponse = await createItem({
       variables: {
         actionId: CREATE_TODO_FOR_PROJECT_ACTION_ID, 
         executionParameters: JSON.stringify({
@@ -45,23 +45,43 @@ function ItemForm({ projectId, createItem, createIsCompleted, onAdd }) {
         }),
         unrestricted: false,
       },
-      update: (cache, response) => {
-        const data = JSON.parse(response.data.ExecuteAction);
+    });
 
-        createIsCompleted({
-          variables: {
-            actionId: CREATE_ISCOMPLETED_FOR_TODO_ACTION_ID,
-              executionParameters: JSON.stringify({
-                parentInstanceId: data.instanceId,
-                value: 'false',
-              }),
-              unrestricted: false, 
+    const newItemData = JSON.parse(createItemResponse.data.ExecuteAction);
+
+    await createIsCompleted({
+      variables: {
+        actionId: CREATE_ISCOMPLETED_FOR_TODO_ACTION_ID,
+        executionParameters: JSON.stringify({
+          parentInstanceId: newItemData.instanceId,
+          value: 'false',
+        }),
+        unrestricted: false,
+      },
+      update: (cache, response) => {
+        const isCompletedData = JSON.parse(response.data.ExecuteAction);
+
+        const newItem = {
+          instance: {
+            id: newItemData.instanceId,
+            value: newItemData.value,
+            __typename: 'Instance',
           },
-          update: () => {
-            onAdd(cache, response);
-          }
-        });
-      }, 
+          children: [
+            {
+              instance: {
+                id: isCompletedData.instanceId,
+                value: isCompletedData.value,
+                __typename: 'Instance',
+              },
+              __typename: 'InstanceWithChildren',
+            },
+          ],
+          __typename: 'InstanceWithChildren',
+        };
+
+        onAdd(newItem)(cache);
+      },
     });
   }
 

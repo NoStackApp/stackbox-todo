@@ -37,7 +37,6 @@ function ProjectForm({ createProject, currentUser, onAdd }) {
 
     await createProject({
       variables: {
-        // Create Project action
         actionId: CREATE_PROJECT_FOR_USER_ACTION_ID,
         executionParameters: JSON.stringify({
           parentInstanceId: currentUser.id,
@@ -45,7 +44,7 @@ function ProjectForm({ createProject, currentUser, onAdd }) {
         }),
         unrestricted: false,
       },
-      update: onAdd,
+      update: onAdd(),
     });
   }
 
