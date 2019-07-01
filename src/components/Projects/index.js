@@ -7,17 +7,21 @@ import Project from '../Project';
 
 import { SOURCE_PROJECTSOURCE_ID, TYPE_PROJECT_ID } from '../../config';
 
+const typeRelationships = {
+  [TYPE_PROJECT_ID]: null,
+};
+
+const parameters = {};
+
 const SOURCE_QUERY = gql`
   query SOURCE(
     $id: ID!
-    $typeHierarchy: String!
-    $unrestricted: Boolean!
+    $typeRelationships: String!
     $parameters: String
   ) {
     sourceData(
       sourceId: $id
-      typeHierarchy: $typeHierarchy
-      unrestricted: $unrestricted
+      typeRelationships: $typeRelationships
       parameters: $parameters
     ) {
       instance {
@@ -28,19 +32,11 @@ const SOURCE_QUERY = gql`
   }
 `;
 
-const typeHierarchy = {
-  [TYPE_PROJECT_ID]: null,
-};
-
-const unrestricted = false;
-const parameters = {};
-
 const Projects = () => (
   <Source
     id={SOURCE_PROJECTSOURCE_ID}
-    typeHierarchy={typeHierarchy}
+    typeRelationships={typeRelationships}
     query={SOURCE_QUERY}
-    unrestricted={unrestricted}
     parameters={parameters}
   >
     {({ loading, error, data, updateSourceAfterCreateAction }) => {
