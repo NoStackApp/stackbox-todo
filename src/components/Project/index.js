@@ -3,8 +3,8 @@ import styled from 'styled-components';
 import gql from 'graphql-tag';
 import { Source } from 'no-stack';
 
-import Item from '../Item';
-import ItemForm from '../ItemForm';
+import Todo from '../Todo';
+import CreateTodoForm from '../CreateTodoForm';
 
 import { SOURCE_TODOSOURCE_ID, TYPE_TODO_ID, TYPE_ISCOMPLETED_ID } from '../../config';
 import { TODO_FRAGMENT, IS_COMPLETED_FRAGMENT } from './fragments';
@@ -37,7 +37,7 @@ const TODO_QUERY = gql`
   ${IS_COMPLETED_FRAGMENT}
 `;
 
-const Wrapper = styled.div`
+const ProjectStyleWrapper = styled.div`
   margin: 2em 1em;
   padding: 1.5em;
   border: none;
@@ -45,7 +45,7 @@ const Wrapper = styled.div`
   box-shadow: 5px 5px 10px #888888;
 `;
 
-const Items = styled.div`
+const Todos = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
@@ -58,13 +58,13 @@ const typeHierarchy = {
 };
 const unrestricted = false;
 
-function Project({ project, onItemDelete }) {
+function Project({ project }) {
   const parameters = {
     currentProjectId: project.id
   };
 
   return (
-    <Wrapper>
+    <ProjectStyleWrapper>
       <h3>{project.value}</h3>
       <Source
         id={SOURCE_TODOSOURCE_ID}
@@ -78,30 +78,30 @@ function Project({ project, onItemDelete }) {
 
           if (error) return `Error: ${error.graphQLErrors}`;
 
-          const items = data.sourceData.map(el => ({
+          const todos = data.sourceData.map(el => ({
             ...el.instance,
             isCompleted: el.children[0].instance,
           }));
 
           return (
             <>
-              <ItemForm projectId={project.id} onAdd={updateSourceAfterCreateAction} />
-              <Items>
-                {items.map(item => (
-                  <Item 
-                    key={item.id}
-                    id={item.id}
-                    name={item.value}
-                    isCompleted={item.isCompleted}
+              <CreateTodoForm projectId={project.id} onAdd={updateSourceAfterCreateAction} />
+              <Todos>
+                {todos.map(todo => (
+                  <Todo
+                    key={todo.id}
+                    id={todo.id}
+                    name={todo.value}
+                    isCompleted={todo.isCompleted}
                     onUpdate={updateSourceAfterUpdateAction}
                   />
                 ))}
-              </Items>
+              </Todos>
             </>
           );
         }}
       </Source>
-    </Wrapper>
+    </ProjectStyleWrapper>
   )
 }
 

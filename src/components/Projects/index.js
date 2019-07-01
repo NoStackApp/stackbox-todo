@@ -2,7 +2,7 @@ import React from 'react';
 import { Source } from 'no-stack';
 import gql from 'graphql-tag';
 
-import ProjectForm from '../ProjectForm';
+import CreateProjectForm from '../CreateProjectForm';
 import Project from '../Project';
 
 import { SOURCE_PROJECTSOURCE_ID, TYPE_PROJECT_ID } from '../../config';
@@ -52,7 +52,7 @@ const Projects = () => (
 
       return (
         <>
-          <ProjectForm onAdd={updateSourceAfterCreateAction} />
+          <CreateProjectForm onAdd={updateSourceAfterCreateAction} />
           {
             projects && projects.map(project => (
               <Project key={project.id} project={project} />

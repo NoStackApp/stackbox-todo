@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { v4 } from 'uuid';
 import { graphql, compose } from 'react-apollo';
 
 import { EXECUTE_ACTION } from 'no-stack';
@@ -19,41 +18,38 @@ const Button = styled.button`
   margin-left: 1em;
 `;
 
-function ItemForm({ projectId, createItem, createIsCompleted, onAdd }) {
-  const [ itemName, updateItemName ] = useState('');
-
-  const id = v4();
-  const inputFieldId = `item-name-field-${id}`;
+function CreateTodoForm({ projectId, createTodo, createIsCompleted, onAdd }) {
+  const [ todoName, updateTodoName ] = useState('');
 
   function handleChange(e) {
-    updateItemName(e.target.value);
+    updateTodoName(e.target.value);
   }
 
   async function handleSubmit(e) {
     e.preventDefault();
 
-    if (!itemName) {
+    if (!todoName) {
       return;
     }
 
-    const createItemResponse = await createItem({
+    const createTodoResponse = await createTodo({
       variables: {
-        actionId: CREATE_TODO_FOR_PROJECT_ACTION_ID, 
+        actionId: CREATE_TODO_FOR_PROJECT_ACTION_ID,
         executionParameters: JSON.stringify({
           parentInstanceId: projectId,
-          value: itemName,
+          value: todoName,
         }),
         unrestricted: false,
       },
     });
 
-    const newItemData = JSON.parse(createItemResponse.data.ExecuteAction);
+    const newTodoData = JSON.parse(createTodoResponse.data.ExecuteAction);
 
     await createIsCompleted({
       variables: {
         actionId: CREATE_ISCOMPLETED_FOR_TODO_ACTION_ID,
         executionParameters: JSON.stringify({
-          parentInstanceId: newItemData.instanceId,
+          parentInstanceId: newTodoData.instanceId,
           value: 'false',
         }),
         unrestricted: false,
@@ -61,10 +57,10 @@ function ItemForm({ projectId, createItem, createIsCompleted, onAdd }) {
       update: (cache, response) => {
         const isCompletedData = JSON.parse(response.data.ExecuteAction);
 
-        const newItem = {
+        const newTodo = {
           instance: {
-            id: newItemData.instanceId,
-            value: newItemData.value,
+            id: newTodoData.instanceId,
+            value: newTodoData.value,
             __typename: 'Instance',
           },
           children: [
@@ -80,34 +76,34 @@ function ItemForm({ projectId, createItem, createIsCompleted, onAdd }) {
           __typename: 'InstanceWithChildren',
         };
 
-        onAdd(newItem)(cache);
+        onAdd(newTodo)(cache);
       },
     });
   }
 
   function handleKeyPress(e) {
     if (e.charCode === 13) {
-      handleSubmit(e);      
+      handleSubmit(e);
     }
   }
 
   return (
     <Form>
-      <label htmlFor={inputFieldId}>
-        Item Name:{' '}
-        <input 
-          id={inputFieldId}
+      <label htmlFor='todo-name'>
+        Todo Name:
+        <input
+          id='todo-name'
           type="text"
           onChange={handleChange}
           onKeyPress={handleKeyPress}
-          value={itemName} />
+          value={todoName} />
       </label>
-      <Button type="submit" onClick={handleSubmit}>Add Item</Button>
+      <Button type="submit" onClick={handleSubmit}>Add Todo</Button>
     </Form>
   );
 }
 
 export default compose(
-  graphql(EXECUTE_ACTION, { name: 'createItem' }),
+  graphql(EXECUTE_ACTION, { name: 'createTodo' }),
   graphql(EXECUTE_ACTION, { name: 'createIsCompleted' }),
-)(ItemForm);
+)(CreateTodoForm);

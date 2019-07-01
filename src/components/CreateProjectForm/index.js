@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { graphql, compose } from 'react-apollo';
 import styled from 'styled-components';
-import { v4 } from 'uuid';
 import { withNoStack, EXECUTE_ACTION } from 'no-stack';
 
 import { CREATE_PROJECT_FOR_USER_ACTION_ID } from '../../config';
@@ -20,9 +19,6 @@ const Button = styled.button`
 
 function ProjectForm({ createProject, currentUser, onAdd }) {
   const [ projectName, updateProjectName ] = useState('');
-
-  const id = v4();
-  const inputFieldId = `item-name-field-${id}`;
 
   function handleChange(e) {
     updateProjectName(e.target.value);
@@ -56,9 +52,10 @@ function ProjectForm({ createProject, currentUser, onAdd }) {
 
   return (
     <Form>
-      <label htmlFor={inputFieldId}>
+      <label htmlFor="project-name">
         Project Name:
         <input
+          id="project-name"
           type="text"
           onChange={handleChange}
           onKeyPress={handleKeyPress}

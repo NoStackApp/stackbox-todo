@@ -6,7 +6,7 @@ import { graphql } from 'react-apollo';
 import { UPDATE_TODO_ACTION_ID, UPDATE_ISCOMPLETED_ACTION_ID } from '../../config';
 import { TODO_FRAGMENT, IS_COMPLETED_FRAGMENT } from '../Project/fragments';
 
-const Wrapper = styled.div`
+const TodoStyleWrapper = styled.div`
   margin: 2em 1em;
   padding: 1.5em;
   border: none;
@@ -14,7 +14,7 @@ const Wrapper = styled.div`
   box-shadow: 5px 5px 10px #888888;
 `;
 
-const DoneItemDiv = styled.div`
+const DoneTodoDiv = styled.div`
   background-color: #FF6347;
   font-weight: bold;
   padding: 1.5em;
@@ -28,19 +28,19 @@ const Button = styled.button`
   margin-left: 1em;
 `;
 
-function Item({ id, name, isCompleted, updateInstance, onUpdate }) {
-  const [ itemName, updateItemName ] = useState(name);
+function Todo({ id, name, isCompleted, updateInstance, onUpdate }) {
+  const [ todoName, updateTodoName ] = useState(name);
 
-  function handleItemNameChange(e) {
-    updateItemName(e.target.value);
+  function handleTodoNameChange(e) {
+    updateTodoName(e.target.value);
   }
 
-  async function handleItemNameSave() {
+  async function handleTodoNameSave() {
     await updateInstance({
       variables: {
         actionId: UPDATE_TODO_ACTION_ID,
         executionParameters: JSON.stringify({
-          value: itemName,
+          value: todoName,
           instanceId: id,
         }),
         update: onUpdate(id, TODO_FRAGMENT),
@@ -50,7 +50,7 @@ function Item({ id, name, isCompleted, updateInstance, onUpdate }) {
 
   function handleKeyDown(e) {
     if (e.key === 'Enter') {
-      handleItemNameSave();
+      handleTodoNameSave();
     }
   }
 
@@ -74,27 +74,27 @@ function Item({ id, name, isCompleted, updateInstance, onUpdate }) {
     });
   }
 
-  const inputFieldId = `item-name-${id}`
+  const inputFieldId = `todo-name-${id}`
 
   return (
-    <Wrapper>
+    <TodoStyleWrapper>
       <div>
         {isCompleted.value === 'true' ?
           (
-            <DoneItemDiv onClick={() => handleUpdateCompletion('false')}>
-              {itemName}
-            </DoneItemDiv>
+            <DoneTodoDiv onClick={() => handleUpdateCompletion('false')}>
+              {todoName}
+            </DoneTodoDiv>
           ) :
           (
             <div>
               <label htmlFor={inputFieldId}>
-                Item Name:
+                Todo Name:
                 <input
                   id={inputFieldId}
                   type="text"
-                  value={itemName}
-                  onChange={handleItemNameChange}
-                  onBlur={handleItemNameSave}
+                  value={todoName}
+                  onChange={handleTodoNameChange}
+                  onBlur={handleTodoNameSave}
                   onKeyDown={handleKeyDown}
                 />
                 <Button type="button" onClick={() => handleUpdateCompletion('true')}>
@@ -105,8 +105,8 @@ function Item({ id, name, isCompleted, updateInstance, onUpdate }) {
           )
         }
       </div>
-    </Wrapper>
+    </TodoStyleWrapper>
   );
 }
 
-export default graphql(EXECUTE_ACTION, { name: 'updateInstance' })(Item);
+export default graphql(EXECUTE_ACTION, { name: 'updateInstance' })(Todo);
