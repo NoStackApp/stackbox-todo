@@ -4,7 +4,7 @@ import { EXECUTE_ACTION } from 'no-stack';
 import { graphql } from 'react-apollo';
 
 import { UPDATE_TODO_ACTION_ID, UPDATE_ISCOMPLETED_ACTION_ID } from '../../config';
-import { TODO_FRAGMENT, IS_COMPLETED_FRAGMENT } from '../Project/fragments';
+import { TODO_FRAGMENT, IS_COMPLETED_FRAGMENT } from '../../source-props/fragments';
 
 const TodoStyleWrapper = styled.div`
   margin: 2em 1em;

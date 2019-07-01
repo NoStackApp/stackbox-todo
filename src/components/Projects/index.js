@@ -1,42 +1,19 @@
 import React from 'react';
 import { Source } from 'no-stack';
-import gql from 'graphql-tag';
 
 import CreateProjectForm from '../CreateProjectForm';
 import Project from '../Project';
 
-import { SOURCE_PROJECTSOURCE_ID, TYPE_PROJECT_ID } from '../../config';
-
-const typeRelationships = {
-  [TYPE_PROJECT_ID]: null,
-};
+import { SOURCE_PROJECTSOURCE_ID } from '../../config';
+import { PROJECTS_FOR_CURRENT_USER_RELATIONSHIPS, PROJECTS_FOR_CURRENT_USER_SOURCE_QUERY } from '../../source-props/project';
 
 const parameters = {};
-
-const SOURCE_QUERY = gql`
-  query SOURCE(
-    $id: ID!
-    $typeRelationships: String!
-    $parameters: String
-  ) {
-    sourceData(
-      sourceId: $id
-      typeRelationships: $typeRelationships
-      parameters: $parameters
-    ) {
-      instance {
-        id
-        value
-      }
-    }
-  }
-`;
 
 const Projects = () => (
   <Source
     id={SOURCE_PROJECTSOURCE_ID}
-    typeRelationships={typeRelationships}
-    query={SOURCE_QUERY}
+    typeRelationships={PROJECTS_FOR_CURRENT_USER_RELATIONSHIPS}
+    query={PROJECTS_FOR_CURRENT_USER_SOURCE_QUERY}
     parameters={parameters}
   >
     {({ loading, error, data, updateSourceAfterCreateAction }) => {

@@ -1,13 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
-import gql from 'graphql-tag';
 import { Source } from 'no-stack';
 
 import Todo from '../Todo';
 import CreateTodoForm from '../CreateTodoForm';
 
-import { SOURCE_TODOSOURCE_ID, TYPE_TODO_ID, TYPE_ISCOMPLETED_ID } from '../../config';
-import { TODO_FRAGMENT, IS_COMPLETED_FRAGMENT } from './fragments';
+import { SOURCE_TODOSOURCE_ID } from '../../config';
+import { TODOS_FOR_CURRENT_PROJECT_SOURCE_QUERY, TODOS_FOR_CURRENT_PROJECT_RELATIONSHIPS } from '../../source-props/todo';
 
 const ProjectStyleWrapper = styled.div`
   margin: 2em 1em;
@@ -23,38 +22,6 @@ const Todos = styled.div`
   justify-content: space-evenly;
 `;
 
-const typeRelationships = {
-  [TYPE_TODO_ID]: {
-    [TYPE_ISCOMPLETED_ID]: null,
-  },
-};
-
-const TODO_QUERY = gql`
-  query SOURCE(
-    $id: ID!
-    $typeRelationships: String!
-    $parameters: String
-  ) {
-    sourceData(
-      sourceId: $id
-      typeRelationships: $typeRelationships
-      parameters: $parameters
-    ) {
-      instance {
-        ...TodoParts
-      }
-      children {
-        instance {
-          ...IsCompletedParts
-        }
-      }
-    }
-  }
-
-  ${TODO_FRAGMENT}
-  ${IS_COMPLETED_FRAGMENT}
-`;
-
 function Project({ project }) {
   const parameters = {
     currentProjectId: project.id
@@ -65,8 +32,8 @@ function Project({ project }) {
       <h3>{project.value}</h3>
       <Source
         id={SOURCE_TODOSOURCE_ID}
-        typeRelationships={typeRelationships}
-        query={TODO_QUERY}
+        query={TODOS_FOR_CURRENT_PROJECT_SOURCE_QUERY}
+        typeRelationships={TODOS_FOR_CURRENT_PROJECT_RELATIONSHIPS}
         parameters={parameters}
       >
         {({ loading, error, data, updateSourceAfterCreateAction, updateSourceAfterUpdateAction}) => {
