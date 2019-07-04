@@ -8,7 +8,7 @@ import CreateTodoForm from '../CreateTodoForm';
 import {SOURCE_TODOSOURCE_ID} from "../../config";
 import {TODOS_FOR_CURRENT_PROJECT_RELATIONSHIPS, TODOS_FOR_CURRENT_PROJECT_SOURCE_QUERY} from "../../source-props/todo";
 
-const StyleWrapper = styled.div`
+const TodoListStyleWrapper = styled.div`
     display: flex;
     flex-wrap: wrap;
     justify-content: space-evenly;
@@ -37,18 +37,20 @@ function Todos({ projectId }) {
                 }));
 
                 return (
-                    <StyleWrapper>
+                    <>
                         <CreateTodoForm projectId={projectId} onAdd={updateSourceAfterCreateAction} />
-                        {todos && todos.map(todo => (
-                            <Todo
-                                key={todo.id}
-                                id={todo.id}
-                                name={todo.value}
-                                isCompleted={todo.isCompleted}
-                                onUpdate={updateSourceAfterUpdateAction}
-                            />
-                        ))}
-                    </StyleWrapper>
+                        <TodoListStyleWrapper>
+                            {todos && todos.map(todo => (
+                                <Todo
+                                    key={todo.id}
+                                    id={todo.id}
+                                    name={todo.value}
+                                    isCompleted={todo.isCompleted}
+                                    onUpdate={updateSourceAfterUpdateAction}
+                                />
+                            ))}
+                        </TodoListStyleWrapper>
+                    </>
                 );
             }}
         </Source>
