@@ -1,5 +1,5 @@
 import gql from 'graphql-tag';
-import { TYPE_TODO_ID, TYPE_ISCOMPLETED_ID } from '../config';
+import { TYPE_TODO_ID, TYPE_ISCOMPLETED_ID } from '../../config';
 
 import { TODO_FRAGMENT, IS_COMPLETED_FRAGMENT } from './fragments';
 

@@ -1,5 +1,5 @@
 import gql from 'graphql-tag';
-import { TYPE_PROJECT_ID } from '../config';
+import { TYPE_PROJECT_ID } from '../../config';
 
 export const PROJECTS_FOR_CURRENT_USER_SOURCE_QUERY = gql`
   query SOURCE(

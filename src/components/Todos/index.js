@@ -6,7 +6,7 @@ import Todo from '../Todo';
 import CreateTodoForm from '../CreateTodoForm';
 
 import {SOURCE_TODOSOURCE_ID} from "../../config";
-import {TODOS_FOR_CURRENT_PROJECT_RELATIONSHIPS, TODOS_FOR_CURRENT_PROJECT_SOURCE_QUERY} from "../../source-props/todo";
+import {TODOS_FOR_CURRENT_PROJECT_RELATIONSHIPS, TODOS_FOR_CURRENT_PROJECT_SOURCE_QUERY} from "../source-props/todo";
 
 const TodoListStyleWrapper = styled.div`
     display: flex;
