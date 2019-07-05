@@ -16,6 +16,24 @@ const ProjectStyleWrapper = styled.div`
   box-shadow: 5px 5px 10px #888888;
 `;
 
+const Row = styled.div`
+  margin: 1em 0;
+`;
+
+const Button = styled.button`
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.25rem;
+  padding: 0;
+  color: #bbbbbb;
+  transition: color 0.5s ease;
+
+  &:hover {
+    color: ${props => props.hoverColor || '#000000'};
+  }
+`;
+
 function Project({ project, updateInstance, onUpdate }) {
   const [ projectValue, updateProjectValue ] = useState(project.value);
   const [ isEditMode, updateIsEditMode ] = useState(false);
@@ -47,7 +65,7 @@ function Project({ project, updateInstance, onUpdate }) {
     <ProjectStyleWrapper>
       {isEditMode ?
         (
-          <div>
+          <Row>
             <label htmlFor={project.id}>
               Project Value:
               <input
@@ -58,31 +76,33 @@ function Project({ project, updateInstance, onUpdate }) {
                 disabled={isSaving}
               />
             </label>
-            <button
+            <Button
               type="button"
+              hoverColor="#00FF00"
               onClick={handleProjectValueSave}
               disabled={isSaving}
             >
               &#10003;
-            </button>
-            <button
+            </Button>
+            <Button
               type="button"
+              hoverColor="#FF0000"
               onClick={() => updateIsEditMode(false)}
               disabled={isSaving}
             >
               &#10005;
-            </button>
-          </div>
+            </Button>
+          </Row>
         ) : 
         (
           <h3>
             {project.value}
-            <button
+            <Button
               type="button"
               onClick={() => updateIsEditMode(true)}
             >
               &#9998;
-            </button>
+            </Button>
           </h3>
         )
       }

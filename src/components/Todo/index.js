@@ -16,6 +16,20 @@ const TodoStyleWrapper = styled.div`
   box-shadow: 5px 5px 10px #888888;
 `;
 
+const Button = styled.button`
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.25rem;
+  padding: 0;
+  color: #bbbbbb;
+  transition: color 0.5s ease;
+
+  &:hover {
+    color: ${props => props.hoverColor || '#000000'};
+  }
+`;
+
 function Todo({ todo, isCompleted, updateInstance, onUpdate }) {
   const [ todoValue, updateTodoValue ] = useState(todo.value);
   const [ isEditMode, updateIsEditMode ] = useState(false);
@@ -67,56 +81,54 @@ function Todo({ todo, isCompleted, updateInstance, onUpdate }) {
 
   return (
     <TodoStyleWrapper>
-      <div>
-        {isEditMode ?
-          (
-            <>
-              <label htmlFor={todo.id}>
-                Todo Value:
-                <input
-                  id={todo.id}
-                  type="text"
-                  value={todoValue}
-                  onChange={handleTodoValueChange}
-                  disabled={isSaving}
-                />
-              </label>
-              <button
-                type="button"
-                onClick={handleTodoValueSave}
+      {isEditMode ?
+        (
+          <>
+            <label htmlFor={todo.id}>
+              Todo Value:
+              <input
+                id={todo.id}
+                type="text"
+                value={todoValue}
+                onChange={handleTodoValueChange}
                 disabled={isSaving}
-              >
-                &#10003;
-              </button>
-              <button
-                type="button"
-                onClick={() => updateIsEditMode(false)}
-                disabled={isSaving}
-              >
-                &#10005;
-              </button>
-            </>
-          ) :
-          (
-            <>
-              {todoValue}
-              <button
-                type="button"
-                onClick={() => updateIsEditMode(true)}
-              >
-                &#9998;
-              </button>
-            </>
-          )
-        }
-      </div>
-      <div>
-        <IsCompleted
-          isCompleted={isCompleted}
-          label="Done?" 
-          onChange={handleUpdateCompletion}
-        />
-      </div>
+              />
+            </label>
+            <Button
+              type="button"
+              hoverColor="#00FF00"
+              onClick={handleTodoValueSave}
+              disabled={isSaving}
+            >
+              &#10003;
+            </Button>
+            <Button
+              type="button"
+              hoverColor="#FF0000"
+              onClick={() => updateIsEditMode(false)}
+              disabled={isSaving}
+            >
+              &#10005;
+            </Button>
+          </>
+        ) :
+        (
+          <>
+            {todoValue}
+            <Button
+              type="button"
+              onClick={() => updateIsEditMode(true)}
+            >
+              &#9998;
+            </Button>
+            <IsCompleted
+              isCompleted={isCompleted}
+              label="Done?" 
+              onChange={handleUpdateCompletion}
+            />
+          </>
+        )
+      }
     </TodoStyleWrapper>
   );
 }
