@@ -19,16 +19,16 @@ const Button = styled.button`
 `;
 
 function CreateTodoForm({ projectId, createTodo, createIsCompleted, onAdd }) {
-  const [ todoName, updateTodoName ] = useState('');
+  const [ todoValue, updateTodoValue ] = useState('');
 
   function handleChange(e) {
-    updateTodoName(e.target.value);
+    updateTodoValue(e.target.value);
   }
 
   async function handleSubmit(e) {
     e.preventDefault();
 
-    if (!todoName) {
+    if (!todoValue) {
       return;
     }
 
@@ -37,7 +37,7 @@ function CreateTodoForm({ projectId, createTodo, createIsCompleted, onAdd }) {
         actionId: CREATE_TODO_FOR_PROJECT_ACTION_ID,
         executionParameters: JSON.stringify({
           parentInstanceId: projectId,
-          value: todoName,
+          value: todoValue,
         }),
         unrestricted: false,
       },
@@ -90,13 +90,13 @@ function CreateTodoForm({ projectId, createTodo, createIsCompleted, onAdd }) {
   return (
     <Form>
       <label htmlFor='todo-name'>
-        Todo Name:
+        Todo Value:
         <input
           id='todo-name'
           type="text"
           onChange={handleChange}
           onKeyPress={handleKeyPress}
-          value={todoName} />
+          value={todoValue} />
       </label>
       <Button type="submit" onClick={handleSubmit}>Add Todo</Button>
     </Form>

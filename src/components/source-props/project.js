@@ -1,6 +1,8 @@
 import gql from 'graphql-tag';
 import { TYPE_PROJECT_ID } from '../../config';
 
+import { PROJECT_FRAGMENT } from './fragments';
+
 export const PROJECTS_FOR_CURRENT_USER_SOURCE_QUERY = gql`
   query SOURCE(
     $id: ID!
@@ -13,11 +15,12 @@ export const PROJECTS_FOR_CURRENT_USER_SOURCE_QUERY = gql`
       parameters: $parameters
     ) {
       instance {
-        id
-        value
+        ...ProjectParts
       }
     }
   }
+
+  ${PROJECT_FRAGMENT}
 `;
 
 export const PROJECTS_FOR_CURRENT_USER_RELATIONSHIPS = {

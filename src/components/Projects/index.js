@@ -16,7 +16,7 @@ const Projects = () => (
     query={PROJECTS_FOR_CURRENT_USER_SOURCE_QUERY}
     parameters={parameters}
   >
-    {({ loading, error, data, updateSourceAfterCreateAction }) => {
+    {({ loading, error, data, updateSourceAfterCreateAction, updateSourceAfterUpdateAction }) => {
       if (loading) return 'Loading...';
 
       if (error) return `Error: ${error.graphQLErrors}`;
@@ -28,7 +28,11 @@ const Projects = () => (
           <CreateProjectForm onAdd={updateSourceAfterCreateAction} />
           {
             projects && projects.map(project => (
-              <Project key={project.id} project={project} />
+              <Project 
+                key={project.id} 
+                project={project}
+                onUpdate={updateSourceAfterUpdateAction}
+              />
             ))
           }
         </>
