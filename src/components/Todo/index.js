@@ -30,7 +30,7 @@ const Button = styled.button`
   }
 `;
 
-function Todo({ todo, updateInstance, onUpdate, sourceQueryVariables }) {
+function Todo({ todo, updateInstance, onUpdate, refetchQueries }) {
   const [ todoValue, updateTodoValue ] = useState(todo.value);
   const [ isEditMode, updateIsEditMode ] = useState(false);
   const [ isSaving, updateIsSaving ] = useState(false);
@@ -102,7 +102,7 @@ function Todo({ todo, updateInstance, onUpdate, sourceQueryVariables }) {
             <IsCompleteds 
               currentTodoId={todo.id}
               isCompleteds={todo.isCompleteds}
-              sourceQueryVariables={sourceQueryVariables}
+              refetchQueries={refetchQueries}
               onUpdate={onUpdate}
             />
           </>

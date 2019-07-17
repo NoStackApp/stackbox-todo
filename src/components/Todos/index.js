@@ -26,14 +26,13 @@ function Todos({ projectId }) {
       typeRelationships={TODOS_FOR_CURRENT_PROJECT_RELATIONSHIPS}
       parameters={parameters}
     >
-      {({loading, error, data, updateSourceAfterCreateAction, updateSourceAfterUpdateAction, queryVariables}) => {
+      {({loading, error, data, updateSourceAfterCreateAction, updateSourceAfterUpdateAction, refetchQueries }) => {
         if (loading) return 'Loading...';
 
         if (error) return `Error: ${error.graphQLErrors}`;
 
         const todos = data.sourceData.map(el => ({
           ...el.instance,
-          // isCompleted: el.children[0].instance,
           isCompleteds: el.children,
         }));
 
@@ -48,7 +47,7 @@ function Todos({ projectId }) {
                     todo={todo}
                     // isCompleted={todo.isCompleted}
                     onUpdate={updateSourceAfterUpdateAction}
-                    sourceQueryVariables={queryVariables}
+                    refetchQueries={refetchQueries}
                   />
                 ))
               }

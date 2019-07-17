@@ -6,12 +6,12 @@ import IsCompleted from '../IsCompleted';
 
 const IsCompletedsStyleWrapper = styled.div``;
 
-function IsCompleteds({ isCompleteds, currentTodoId, onUpdate, sourceQueryVariables }) {
+function IsCompleteds({ isCompleteds, currentTodoId, onUpdate, refetchQueries }) {
   return (
     <IsCompletedsStyleWrapper>
       <CreateIsCompletedForm
         currentTodoId={currentTodoId}
-        sourceQueryVariables={sourceQueryVariables}
+        refetchQueries={refetchQueries}
       />
 
       {isCompleteds.map(isCompleted => (

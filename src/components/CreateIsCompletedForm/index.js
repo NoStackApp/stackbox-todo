@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import { EXECUTE_ACTION } from 'no-stack';
 
 import { CREATE_ISCOMPLETED_FOR_TODO_ACTION_ID } from '../../config';
-import { TODOS_FOR_CURRENT_PROJECT_SOURCE_QUERY } from '../source-props/todo';
 
 const Form = styled.div`
   padding: 1em;
@@ -15,7 +14,7 @@ const Form = styled.div`
 
 const Button = styled.button``;
 
-function CreateIsCompletedForm({ createIsCompleted, currentTodoId, sourceQueryVariables }) {
+function CreateIsCompletedForm({ createIsCompleted, currentTodoId, refetchQueries }) {
   const [ isCompletedName, updateIsCompletedName ] = useState('');
 
   function handleChange(e) {
@@ -38,12 +37,7 @@ function CreateIsCompletedForm({ createIsCompleted, currentTodoId, sourceQueryVa
         }),
         unrestricted: false,
       },
-      refetchQueries: [
-        {
-          query: TODOS_FOR_CURRENT_PROJECT_SOURCE_QUERY,
-          variables: sourceQueryVariables,
-        },
-      ]
+      refetchQueries,
     })
   }
 
