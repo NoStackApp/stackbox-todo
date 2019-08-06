@@ -20,6 +20,7 @@ const Button = styled.button`
 
 function CreateTodoForm({ projectId, createTodo, createIsCompleted, onAdd }) {
   const [ todoValue, updateTodoValue ] = useState('');
+  const [ loading, updateLoading ] = useState(false);
 
   function handleChange(e) {
     updateTodoValue(e.target.value);
@@ -31,6 +32,8 @@ function CreateTodoForm({ projectId, createTodo, createIsCompleted, onAdd }) {
     if (!todoValue) {
       return;
     }
+
+    updateLoading(true);
 
     const createTodoResponse = await createTodo({
       variables: {
@@ -79,6 +82,9 @@ function CreateTodoForm({ projectId, createTodo, createIsCompleted, onAdd }) {
         onAdd(newTodo)(cache);
       },
     });
+
+    updateTodoValue('');
+    updateLoading(false);
   }
 
   function handleKeyPress(e) {
@@ -96,9 +102,17 @@ function CreateTodoForm({ projectId, createTodo, createIsCompleted, onAdd }) {
           type="text"
           onChange={handleChange}
           onKeyPress={handleKeyPress}
-          value={todoValue} />
+          value={todoValue}
+          disabled={loading}
+        />
       </label>
-      <Button type="submit" onClick={handleSubmit}>Add Todo</Button>
+      <Button type="submit" disabled={loading} onClick={handleSubmit}>
+        {
+          loading
+            ? 'Adding Todo...'
+            : 'Add Todo'
+        }
+      </Button>
     </Form>
   );
 }

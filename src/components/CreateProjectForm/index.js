@@ -18,30 +18,36 @@ const Button = styled.button`
 `;
 
 function ProjectForm({ createProject, currentUser, onAdd }) {
-  const [ projectName, updateProjectName ] = useState('');
+  const [ projectValue, updateProjectValue ] = useState('');
+  const [ loading, updateLoading ] = useState(false);
 
   function handleChange(e) {
-    updateProjectName(e.target.value);
+    updateProjectValue(e.target.value);
   }
 
   async function handleSubmit(e) {
     e.preventDefault();
 
-    if (!projectName) {
+    if (!projectValue) {
       return;
     }
+
+    updateLoading(true);
 
     await createProject({
       variables: {
         actionId: CREATE_PROJECT_FOR_USER_ACTION_ID,
         executionParameters: JSON.stringify({
           parentInstanceId: currentUser.id,
-          value: projectName,
+          value: projectValue,
         }),
         unrestricted: false,
       },
       update: onAdd(),
     });
+
+    updateProjectValue('');
+    updateLoading(false);
   }
 
   function handleKeyPress(e) {
@@ -59,9 +65,17 @@ function ProjectForm({ createProject, currentUser, onAdd }) {
           type="text"
           onChange={handleChange}
           onKeyPress={handleKeyPress}
-          value={projectName} />
+          value={projectValue}
+          disabled={loading}
+        />
       </label>
-      <Button type="submit" onClick={handleSubmit}>Create Project</Button>
+      <Button type="submit" disabled={loading} onClick={handleSubmit}>
+        {
+          loading 
+            ? 'Creating Project...'
+            : 'Create Project'
+        }
+      </Button>
     </Form>
   );
 }
