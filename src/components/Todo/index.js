@@ -3,8 +3,8 @@ import styled from 'styled-components';
 import { EXECUTE_ACTION } from 'no-stack';
 import { graphql } from 'react-apollo';
 
-import { UPDATE_TODO_ACTION_ID, UPDATE_ISCOMPLETED_ACTION_ID } from '../../config';
-import { TODO_FRAGMENT, IS_COMPLETED_FRAGMENT } from '../source-props/fragments';
+import { UPDATE_TODO_ACTION_ID } from '../../config';
+import { TODO_FRAGMENT } from '../source-props/fragments';
 
 import IsCompleted from '../IsCompleted';
 
@@ -57,28 +57,6 @@ function Todo({ todo, isCompleted, updateInstance, onUpdate }) {
     updateIsSaving(false);
   }
 
-  async function handleUpdateCompletion() {
-    const value = isCompleted.value === 'true' ? 'false' : 'true';
-
-    await updateInstance({
-      variables: {
-        actionId: UPDATE_ISCOMPLETED_ACTION_ID,
-        executionParameters: JSON.stringify({
-          value,
-          instanceId: isCompleted.id,
-        }),
-        unrestricted: false,
-      },
-      optimisticResponse: {
-        ExecuteAction: JSON.stringify({
-          id: isCompleted.id,
-          value,
-        }),
-      },
-      update: onUpdate(isCompleted.id, IS_COMPLETED_FRAGMENT),
-    });
-  }
-
   return (
     <TodoStyleWrapper>
       {isEditMode ?
@@ -124,7 +102,7 @@ function Todo({ todo, isCompleted, updateInstance, onUpdate }) {
             <IsCompleted
               isCompleted={isCompleted}
               label="Done?" 
-              onChange={handleUpdateCompletion}
+              onUpdate={onUpdate}
             />
           </>
         )

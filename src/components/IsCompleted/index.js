@@ -1,5 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
+import { graphql } from 'react-apollo';
+import { EXECUTE_ACTION } from 'no-stack';
+
+import { UPDATE_ISCOMPLETED_ACTION_ID } from '../../config';
+import { IS_COMPLETED_FRAGMENT } from '../source-props/fragments';
 
 const IsCompletedStyleWrapper = styled.span`
   margin-left: 1.5em;
@@ -8,7 +13,29 @@ const IsCompletedStyleWrapper = styled.span`
   padding: 0.5em;
 `;
 
-function IsCompleted({ isCompleted, label, onChange, disabled = false }) {
+function IsCompleted({ isCompleted, label, updateInstance, onUpdate, disabled = false }) {
+  async function handleUpdateCompletion() {
+    const value = isCompleted.value === 'true' ? 'false' : 'true';
+
+    await updateInstance({
+      variables: {
+        actionId: UPDATE_ISCOMPLETED_ACTION_ID,
+        executionParameters: JSON.stringify({
+          value,
+          instanceId: isCompleted.id,
+        }),
+        unrestricted: false,
+      },
+      optimisticResponse: {
+        ExecuteAction: JSON.stringify({
+          id: isCompleted.id,
+          value,
+        }),
+      },
+      update: onUpdate(isCompleted.id, IS_COMPLETED_FRAGMENT),
+    });
+  }
+
   return (
     <IsCompletedStyleWrapper>
       <label htmlFor={isCompleted.id}>
@@ -17,7 +44,7 @@ function IsCompleted({ isCompleted, label, onChange, disabled = false }) {
           id={isCompleted.id} 
           type="checkbox" 
           checked={isCompleted.value === 'true'} 
-          onChange={onChange} 
+          onChange={handleUpdateCompletion} 
           disabled={disabled}
         />
       </label>
@@ -25,4 +52,4 @@ function IsCompleted({ isCompleted, label, onChange, disabled = false }) {
   );
 }
 
-export default IsCompleted;
+export default graphql(EXECUTE_ACTION, { name: 'updateInstance' })(IsCompleted);
