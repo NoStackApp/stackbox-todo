@@ -1,8 +1,17 @@
-# React Hooks Demo
+# no-stack demo
 
-App preview is available at [https://remlampa.github.io/hooks-demo](https://remlampa.github.io/hooks-demo)
+App preview is available at [https://nostackapp.github.io/stackbox-todo](https://nostackapp.github.io/stackbox-todo)
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+## Test Credentials
+
+```
+username: irnold<stacknumber>
+password: letMeIn1!
+```
+
+`stacknumber` can be found in `src/config/index.js`. (i.e. irnold154 for TestStack154)
 
 ## Available Scripts
 
