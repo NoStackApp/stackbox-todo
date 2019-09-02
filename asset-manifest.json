@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/stackbox-todo/static/css/main.584f321a.chunk.css",
-    "main.js": "/stackbox-todo/static/js/main.600c36ed.chunk.js",
-    "main.js.map": "/stackbox-todo/static/js/main.600c36ed.chunk.js.map",
-    "runtime~main.js": "/stackbox-todo/static/js/runtime~main.66c621e9.js",
-    "runtime~main.js.map": "/stackbox-todo/static/js/runtime~main.66c621e9.js.map",
-    "static/js/2.d020d52e.chunk.js": "/stackbox-todo/static/js/2.d020d52e.chunk.js",
-    "static/js/2.d020d52e.chunk.js.map": "/stackbox-todo/static/js/2.d020d52e.chunk.js.map",
+    "main.js": "/stackbox-todo/static/js/main.e905a5fe.chunk.js",
+    "main.js.map": "/stackbox-todo/static/js/main.e905a5fe.chunk.js.map",
+    "runtime~main.js": "/stackbox-todo/static/js/runtime~main.ae73a24c.js",
+    "runtime~main.js.map": "/stackbox-todo/static/js/runtime~main.ae73a24c.js.map",
+    "static/js/2.f682bb8d.chunk.js": "/stackbox-todo/static/js/2.f682bb8d.chunk.js",
+    "static/js/2.f682bb8d.chunk.js.map": "/stackbox-todo/static/js/2.f682bb8d.chunk.js.map",
     "index.html": "/stackbox-todo/index.html",
-    "precache-manifest.4ce613bf6394658d3d65e39e7ad493ce.js": "/stackbox-todo/precache-manifest.4ce613bf6394658d3d65e39e7ad493ce.js",
+    "precache-manifest.5331a9631708c138b9101de79a625f75.js": "/stackbox-todo/precache-manifest.5331a9631708c138b9101de79a625f75.js",
     "service-worker.js": "/stackbox-todo/service-worker.js",
     "static/css/main.584f321a.chunk.css.map": "/stackbox-todo/static/css/main.584f321a.chunk.css.map"
   }
