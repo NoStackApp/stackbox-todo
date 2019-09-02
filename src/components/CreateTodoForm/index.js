@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { graphql, compose } from 'react-apollo';
+import compose from '@shopify/react-compose';
+import { graphql } from '@apollo/react-hoc';
 
 import { EXECUTE_ACTION } from 'no-stack';
 

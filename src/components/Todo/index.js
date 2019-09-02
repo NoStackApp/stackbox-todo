@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { EXECUTE_ACTION } from 'no-stack';
-import { graphql } from 'react-apollo';
+import { graphql } from '@apollo/react-hoc';
 
 import { UPDATE_TODO_ACTION_ID } from '../../config';
 import { TODO_FRAGMENT } from '../source-props/fragments';
@@ -41,7 +41,7 @@ function Todo({ todo, isCompleted, updateInstance, onUpdate }) {
 
   async function handleTodoValueSave() {
     updateIsSaving(true);
-    
+
     await updateInstance({
       variables: {
         actionId: UPDATE_TODO_ACTION_ID,
@@ -101,7 +101,7 @@ function Todo({ todo, isCompleted, updateInstance, onUpdate }) {
             </Button>
             <IsCompleted
               isCompleted={isCompleted}
-              label="Done?" 
+              label="Done?"
               onUpdate={onUpdate}
             />
           </>

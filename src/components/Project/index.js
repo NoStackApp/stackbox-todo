@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { EXECUTE_ACTION } from 'no-stack';
-import { graphql } from 'react-apollo';
+import { graphql } from '@apollo/react-hoc';
 
 import { UPDATE_PROJECT_ACTION_ID } from '../../config';
 import { PROJECT_FRAGMENT } from '../source-props/fragments';

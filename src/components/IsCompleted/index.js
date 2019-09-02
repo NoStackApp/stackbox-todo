@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { graphql } from 'react-apollo';
+import { graphql } from '@apollo/react-hoc';
 import { EXECUTE_ACTION } from 'no-stack';
 
 import { UPDATE_ISCOMPLETED_ACTION_ID } from '../../config';

@@ -1,0 +1,1 @@
+{"version":3,"file":"index.d.ts","sourceRoot":"","sources":["../../src/components/LogoutButton/index.tsx"],"names":[],"mappings":"AAAA,OAAO,KAA4B,MAAM,OAAO,CAAC;AASjD,UAAU,WAAW;IACnB,WAAW,CAAC,EAAE,GAAG,CAAC;IAClB,MAAM,EAAE,MAAM,IAAI,CAAC;IACnB,UAAU,CAAC,EAAE,MAAM,CAAC;CACrB;AAaD,eAAO,MAAM,YAAY,sCAA+B,CAAC"}
