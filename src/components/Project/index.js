@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { EXECUTE_ACTION } from 'no-stack';
 import { graphql } from '@apollo/react-hoc';
 
-import { UPDATE_PROJECT_ACTION_ID } from '../../config';
+import { UPDATE_PROJECT_FOR_PROJECT_SOURCE_ACTION_ID } from '../../config';
 import { PROJECT_FRAGMENT } from '../source-props/fragments';
 
 import Todos from '../Todos';
@@ -48,7 +48,7 @@ function Project({ project, updateInstance, onUpdate }) {
     
     await updateInstance({
       variables: {
-        actionId: UPDATE_PROJECT_ACTION_ID,
+        actionId: UPDATE_PROJECT_FOR_PROJECT_SOURCE_ACTION_ID,
         executionParameters: JSON.stringify({
           value: projectValue,
           instanceId: project.id,

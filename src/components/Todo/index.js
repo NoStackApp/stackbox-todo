@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { EXECUTE_ACTION } from 'no-stack';
 import { graphql } from '@apollo/react-hoc';
 
-import { UPDATE_TODO_ACTION_ID } from '../../config';
+import { UPDATE_TO_DO_FOR_TO_DO_SOURCE_ACTION_ID } from '../../config';
 import { TODO_FRAGMENT } from '../source-props/fragments';
 
 import IsCompleted from '../IsCompleted';
@@ -44,7 +44,7 @@ function Todo({ todo, isCompleted, updateInstance, onUpdate }) {
 
     await updateInstance({
       variables: {
-        actionId: UPDATE_TODO_ACTION_ID,
+        actionId: UPDATE_TO_DO_FOR_TO_DO_SOURCE_ACTION_ID,
         executionParameters: JSON.stringify({
           value: todoValue,
           instanceId: todo.id,

@@ -5,7 +5,7 @@ import { Source } from 'no-stack';
 import Todo from '../Todo';
 import CreateTodoForm from '../CreateTodoForm';
 
-import {SOURCE_TODOSOURCE_ID} from "../../config";
+import {SOURCE_TO_DO_SOURCE_ID} from "../../config";
 import {TODOS_FOR_CURRENT_PROJECT_RELATIONSHIPS, TODOS_FOR_CURRENT_PROJECT_SOURCE_QUERY} from "../source-props/todo";
 
 const TodoListStyleWrapper = styled.div`
@@ -21,7 +21,7 @@ function Todos({ projectId }) {
 
   return (
     <Source
-      id={SOURCE_TODOSOURCE_ID}
+      id={SOURCE_TO_DO_SOURCE_ID}
       query={TODOS_FOR_CURRENT_PROJECT_SOURCE_QUERY}
       typeRelationships={TODOS_FOR_CURRENT_PROJECT_RELATIONSHIPS}
       parameters={parameters}

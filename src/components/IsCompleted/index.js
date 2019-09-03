@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { graphql } from '@apollo/react-hoc';
 import { EXECUTE_ACTION } from 'no-stack';
 
-import { UPDATE_ISCOMPLETED_ACTION_ID } from '../../config';
+import { UPDATE_IS_COMPLETED_FOR_TO_DO_SOURCE_ACTION_ID } from '../../config';
 import { IS_COMPLETED_FRAGMENT } from '../source-props/fragments';
 
 const IsCompletedStyleWrapper = styled.span`
@@ -19,7 +19,7 @@ function IsCompleted({ isCompleted, label, updateInstance, onUpdate, disabled = 
 
     await updateInstance({
       variables: {
-        actionId: UPDATE_ISCOMPLETED_ACTION_ID,
+        actionId: UPDATE_IS_COMPLETED_FOR_TO_DO_SOURCE_ACTION_ID,
         executionParameters: JSON.stringify({
           value,
           instanceId: isCompleted.id,

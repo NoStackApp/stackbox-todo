@@ -4,7 +4,7 @@ import { graphql } from '@apollo/react-hoc';
 import styled from 'styled-components';
 import { withNoStack, EXECUTE_ACTION } from 'no-stack';
 
-import { CREATE_PROJECT_FOR_USER_ACTION_ID } from '../../config';
+import { CREATE_PROJECT_FOR_PROJECT_SOURCE_ACTION_ID } from '../../config';
 
 const Form = styled.div`
   margin: 2em;
@@ -37,7 +37,7 @@ function ProjectForm({ createProject, currentUser, onAdd }) {
 
     await createProject({
       variables: {
-        actionId: CREATE_PROJECT_FOR_USER_ACTION_ID,
+        actionId: CREATE_PROJECT_FOR_PROJECT_SOURCE_ACTION_ID,
         executionParameters: JSON.stringify({
           parentInstanceId: currentUser.id,
           value: projectValue,

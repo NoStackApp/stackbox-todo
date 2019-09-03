@@ -5,7 +5,7 @@ import { graphql } from '@apollo/react-hoc';
 
 import { EXECUTE_ACTION } from 'no-stack';
 
-import { CREATE_TODO_FOR_PROJECT_ACTION_ID, CREATE_ISCOMPLETED_FOR_TODO_ACTION_ID } from '../../config';
+import { CREATE_TO_DO_FOR_TO_DO_SOURCE_ACTION_ID, CREATE_IS_COMPLETED_FOR_TO_DO_SOURCE_ACTION_ID } from '../../config';
 
 const Form = styled.div`
   margin: 2em;
@@ -38,7 +38,7 @@ function CreateTodoForm({ projectId, createTodo, createIsCompleted, onAdd }) {
 
     const createTodoResponse = await createTodo({
       variables: {
-        actionId: CREATE_TODO_FOR_PROJECT_ACTION_ID,
+        actionId: CREATE_TO_DO_FOR_TO_DO_SOURCE_ACTION_ID,
         executionParameters: JSON.stringify({
           parentInstanceId: projectId,
           value: todoValue,
@@ -51,7 +51,7 @@ function CreateTodoForm({ projectId, createTodo, createIsCompleted, onAdd }) {
 
     await createIsCompleted({
       variables: {
-        actionId: CREATE_ISCOMPLETED_FOR_TODO_ACTION_ID,
+        actionId: CREATE_IS_COMPLETED_FOR_TO_DO_SOURCE_ACTION_ID,
         executionParameters: JSON.stringify({
           parentInstanceId: newTodoData.instanceId,
           value: 'false',

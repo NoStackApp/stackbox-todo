@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import CreateProjectForm from '../CreateProjectForm';
 import Project from '../Project';
 
-import { SOURCE_PROJECTSOURCE_ID } from '../../config';
+import { SOURCE_PROJECT_SOURCE_ID } from '../../config';
 import { PROJECTS_FOR_CURRENT_USER_RELATIONSHIPS, PROJECTS_FOR_CURRENT_USER_SOURCE_QUERY } from '../source-props/project';
 
 const ProjectsStyleWrapper = styled.div`
@@ -25,7 +25,7 @@ const Projects = () => {
   
   return (
     <Source
-      id={SOURCE_PROJECTSOURCE_ID}
+      id={SOURCE_PROJECT_SOURCE_ID}
       typeRelationships={PROJECTS_FOR_CURRENT_USER_RELATIONSHIPS}
       query={PROJECTS_FOR_CURRENT_USER_SOURCE_QUERY}
       parameters={parameters}
