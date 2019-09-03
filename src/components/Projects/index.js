@@ -20,40 +20,36 @@ const ProjectsStyleWrapper = styled.div`
 
 const parameters = {};
 
-const Projects = () => {
-  console.log('projects');
-  
-  return (
-    <Source
-      id={SOURCE_PROJECT_SOURCE_ID}
-      typeRelationships={PROJECTS_FOR_CURRENT_USER_RELATIONSHIPS}
-      query={PROJECTS_FOR_CURRENT_USER_SOURCE_QUERY}
-      parameters={parameters}
-    >
-  {({ loading, error, data, updateSourceAfterCreateAction, updateSourceAfterUpdateAction }) => {
-    if (loading) return 'Loading...';
+const Projects = () => (
+  <Source
+    id={SOURCE_PROJECT_SOURCE_ID}
+    typeRelationships={PROJECTS_FOR_CURRENT_USER_RELATIONSHIPS}
+    query={PROJECTS_FOR_CURRENT_USER_SOURCE_QUERY}
+    parameters={parameters}
+  >
+    {({ loading, error, data, updateSourceAfterCreateAction, updateSourceAfterUpdateAction }) => {
+      if (loading) return 'Loading...';
 
-    if (error) return `Error: ${error.graphQLErrors}`;
+      if (error) return `Error: ${error.graphQLErrors}`;
 
-    const projects = data.sourceData.map(el => el.instance);
+      const projects = data.sourceData.map(el => el.instance);
 
-    return (
-      <ProjectsStyleWrapper>
-        <CreateProjectForm onAdd={updateSourceAfterCreateAction} />
-    {
-      projects && projects.map(project => (
-        <Project 
-          key={project.id} 
-          project={project}
-          onUpdate={updateSourceAfterUpdateAction}
-        />
-      ))
-        }
-      </ProjectsStyleWrapper>
-    );
-      }}
-    </Source>
-  );
-}
+      return (
+        <ProjectsStyleWrapper>
+          <CreateProjectForm onAdd={updateSourceAfterCreateAction} />
+          {
+            projects && projects.map(project => (
+              <Project
+                key={project.id}
+                project={project}
+                onUpdate={updateSourceAfterUpdateAction}
+              />
+            ))
+          }
+        </ProjectsStyleWrapper>
+      );
+    }}
+  </Source>
+); 
 
 export default Projects;
