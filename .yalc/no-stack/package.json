@@ -1,6 +1,6 @@
 {
   "name": "no-stack",
-  "version": "0.0.41-cc3f00cf",
+  "version": "0.0.43-44c0de8c",
   "description": "Set of React utilities and helpers for no-stack",
   "main": "dist/no-stack.cjs.js",
   "module": "dist/no-stack.esm.js",
@@ -22,7 +22,7 @@
     "type": "git",
     "url": "git+https://github.com/Sparkhackers/no-stack.git"
   },
-  "author": "",
+  "author": "noStack",
   "license": "MIT",
   "files": [
     "LICENSE",
