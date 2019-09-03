@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { EXECUTE_ACTION } from 'no-stack';
+import compose from '@shopify/react-compose';
 import { graphql } from '@apollo/react-hoc';
 
-import { UPDATE_TO_DO_FOR_TO_DO_SOURCE_ACTION_ID } from '../../config';
+import { UPDATE_TO_DO_FOR_TO_DO_SOURCE_ACTION_ID, DELETE_TO_DO_FOR_TO_DO_SOURCE_ACTION_ID } from '../../config';
 import { TODO_FRAGMENT } from '../source-props/fragments';
 
 import IsCompleted from '../IsCompleted';
@@ -14,6 +15,7 @@ const TodoStyleWrapper = styled.div`
   border: none;
   border-radius: 10px;
   box-shadow: 5px 5px 10px #888888;
+  opacity: ${props => props.isDeleting ? 0.2 : 1.0};
 `;
 
 const Button = styled.button`
@@ -30,10 +32,19 @@ const Button = styled.button`
   }
 `;
 
-function Todo({ todo, isCompleted, updateInstance, onUpdate }) {
+const DeleteMenu = styled.div`
+  color: red;
+  margin: 1em;
+  padding: 1em;
+  border: 1px solid #eeeeee;
+`;
+
+function Todo({ todo, projectId, isCompleted, updateInstance, deleteInstance, onUpdate, onDelete }) {
   const [ todoValue, updateTodoValue ] = useState(todo.value);
   const [ isEditMode, updateIsEditMode ] = useState(false);
   const [ isSaving, updateIsSaving ] = useState(false);
+  const [ isDeleteMode, updateIsDeleteMode ] = useState(false);
+  const [ isDeleting, updateIsDeleting ] = useState(false);
 
   function handleTodoValueChange(e) {
     updateTodoValue(e.target.value);
@@ -49,16 +60,35 @@ function Todo({ todo, isCompleted, updateInstance, onUpdate }) {
           value: todoValue,
           instanceId: todo.id,
         }),
-        update: onUpdate(todo.id, TODO_FRAGMENT),
       },
+      update: onUpdate(todo.id, TODO_FRAGMENT),
     });
 
     updateIsEditMode(false);
     updateIsSaving(false);
   }
 
+  async function handleDelete() {
+    updateIsDeleting(true); 
+
+    try {
+      await deleteInstance({
+        variables: {
+          actionId: DELETE_TO_DO_FOR_TO_DO_SOURCE_ACTION_ID,
+          executionParameters: JSON.stringify({
+            parentInstanceId: projectId,
+            instanceId: todo.id,
+          }),
+        },
+        update: onDelete(todo.id),
+      });
+    } catch (e) {
+      updateIsDeleting(false);
+    }
+  }
+
   return (
-    <TodoStyleWrapper>
+    <TodoStyleWrapper isDeleting={isDeleting}>
       {isEditMode ?
         (
           <>
@@ -93,17 +123,50 @@ function Todo({ todo, isCompleted, updateInstance, onUpdate }) {
         (
           <>
             {todoValue}
-            <Button
-              type="button"
-              onClick={() => updateIsEditMode(true)}
-            >
-              &#9998;
-            </Button>
-            <IsCompleted
-              isCompleted={isCompleted}
-              label="Done?"
-              onUpdate={onUpdate}
-            />
+            {isDeleteMode ?
+              (
+                <DeleteMenu>
+                  Delete?
+                  <Button
+                    type="button"
+                    hoverColor="#00FF00"
+                    onClick={handleDelete}
+                    disabled={isDeleting}
+                  >
+                    &#10003;
+                  </Button>
+                  <Button
+                    type="button"
+                    hoverColor="#FF0000"
+                    onClick={() => updateIsDeleteMode(false)}
+                    disabled={isDeleting}
+                  >
+                    &#10005;
+                  </Button>
+                </DeleteMenu>
+              ) :
+              (
+                <>
+                  <Button
+                    type="button"
+                    onClick={() => updateIsEditMode(true)}
+                  >
+                    &#9998;
+                  </Button>
+                  <Button
+                    type="button"
+                    onClick={() => updateIsDeleteMode(true)}
+                  >
+                    &#128465;
+                  </Button>
+                  <IsCompleted
+                    isCompleted={isCompleted}
+                    label="Done?"
+                    onUpdate={onUpdate}
+                  />
+                </>
+              )
+            }
           </>
         )
       }
@@ -111,4 +174,7 @@ function Todo({ todo, isCompleted, updateInstance, onUpdate }) {
   );
 }
 
-export default graphql(EXECUTE_ACTION, { name: 'updateInstance' })(Todo);
+export default compose(
+  graphql(EXECUTE_ACTION, { name: 'updateInstance' }),
+  graphql(EXECUTE_ACTION, { name: 'deleteInstance' })
+)(Todo);

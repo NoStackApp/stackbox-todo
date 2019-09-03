@@ -12,6 +12,7 @@ const TodoListStyleWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
+  align-items: flex-start;
 `;
 
 function Todos({ projectId }) {
@@ -26,7 +27,7 @@ function Todos({ projectId }) {
       typeRelationships={TODOS_FOR_CURRENT_PROJECT_RELATIONSHIPS}
       parameters={parameters}
     >
-      {({loading, error, data, updateSourceAfterCreateAction, updateSourceAfterUpdateAction}) => {
+      {({loading, error, data, updateSourceAfterCreateAction, updateSourceAfterUpdateAction, updateSourceAfterDeleteAction }) => {
         if (loading) return 'Loading...';
 
         if (error) return `Error: ${error.graphQLErrors}`;
@@ -45,8 +46,10 @@ function Todos({ projectId }) {
                   <Todo
                     key={todo.id}
                     todo={todo}
+                    projectId={projectId}
                     isCompleted={todo.isCompleted}
                     onUpdate={updateSourceAfterUpdateAction}
+                    onDelete={updateSourceAfterDeleteAction}
                   />
                 ))
               }
