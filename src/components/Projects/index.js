@@ -20,14 +20,14 @@ const ProjectsStyleWrapper = styled.div`
 
 const parameters = {};
 
-const Projects = () => (
+const Projects = ({ currentUserId }) => (
   <Source
     id={SOURCE_PROJECT_SOURCE_ID}
     typeRelationships={PROJECTS_FOR_CURRENT_USER_RELATIONSHIPS}
     query={PROJECTS_FOR_CURRENT_USER_SOURCE_QUERY}
     parameters={parameters}
   >
-    {({ loading, error, data, updateSourceAfterCreateAction, updateSourceAfterUpdateAction }) => {
+    {({ loading, error, data, updateSourceAfterCreateAction, updateSourceAfterUpdateAction, updateSourceAfterDeleteAction }) => {
       if (loading) return 'Loading...';
 
       if (error) return `Error: ${error.graphQLErrors}`;
@@ -42,7 +42,9 @@ const Projects = () => (
               <Project
                 key={project.id}
                 project={project}
+                currentUserId={currentUserId}
                 onUpdate={updateSourceAfterUpdateAction}
+                onDelete={updateSourceAfterDeleteAction}
               />
             ))
           }
@@ -50,6 +52,6 @@ const Projects = () => (
       );
     }}
   </Source>
-); 
+);
 
 export default Projects;

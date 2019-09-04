@@ -39,7 +39,7 @@ const App = () => (
           }
 
           return (
-            <Projects />
+            <Projects currentUserId={currentUser.id} />
           );
         }}
       </NoStackConsumer>

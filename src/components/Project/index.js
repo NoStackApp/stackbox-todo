@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { EXECUTE_ACTION } from 'no-stack';
+import compose from '@shopify/react-compose';
 import { graphql } from '@apollo/react-hoc';
 
-import { UPDATE_PROJECT_FOR_PROJECT_SOURCE_ACTION_ID } from '../../config';
+import { UPDATE_PROJECT_FOR_PROJECT_SOURCE_ACTION_ID, DELETE_PROJECT_FOR_PROJECT_SOURCE_ACTION_ID } from '../../config';
 import { PROJECT_FRAGMENT } from '../source-props/fragments';
 
 import Todos from '../Todos';
@@ -14,6 +15,7 @@ const ProjectStyleWrapper = styled.div`
   border: none;
   border-radius: 10px;
   box-shadow: 5px 5px 10px #888888;
+  opacity: ${props => props.isDeleting ? 0.2 : 1.0};
 `;
 
 const Row = styled.div`
@@ -34,10 +36,19 @@ const Button = styled.button`
   }
 `;
 
-function Project({ project, updateInstance, onUpdate }) {
+const DeleteMenu = styled.div`
+  color: red;
+  margin: 1em;
+  padding: 1em;
+  border: 1px solid #eeeeee;
+`;
+
+function Project({ project, currentUserId, updateInstance, deleteInstance, onUpdate, onDelete }) {
   const [ projectValue, updateProjectValue ] = useState(project.value);
   const [ isEditMode, updateIsEditMode ] = useState(false);
   const [ isSaving, updateIsSaving ] = useState(false);
+  const [ isDeleteMode, updateIsDeleteMode ] = useState(false);
+  const [ isDeleting, updateIsDeleting ] = useState(false);
 
   function handleProjectValueChange(e) {
     updateProjectValue(e.target.value);
@@ -45,7 +56,7 @@ function Project({ project, updateInstance, onUpdate }) {
 
   async function handleProjectValueSave() {
     updateIsSaving(true);
-    
+
     await updateInstance({
       variables: {
         actionId: UPDATE_PROJECT_FOR_PROJECT_SOURCE_ACTION_ID,
@@ -61,8 +72,27 @@ function Project({ project, updateInstance, onUpdate }) {
     updateIsSaving(false);
   }
 
+  async function handleDelete() {
+    updateIsDeleting(true);
+
+    try {
+      await deleteInstance({
+        variables: {
+          actionId: DELETE_PROJECT_FOR_PROJECT_SOURCE_ACTION_ID,
+          executionParameters: JSON.stringify({
+            parentInstanceId: currentUserId,
+            instanceId: project.id,
+          }),
+        },
+        update: onDelete(project.id),
+      });
+    } catch (e) {
+      updateIsDeleting(false);
+    }
+  }
+
   return (
-    <ProjectStyleWrapper>
+    <ProjectStyleWrapper isDeleting={isDeleting}>
       {isEditMode ?
         (
           <Row>
@@ -93,16 +123,48 @@ function Project({ project, updateInstance, onUpdate }) {
               &#10005;
             </Button>
           </Row>
-        ) : 
+        ) :
         (
           <h3>
             {project.value}
-            <Button
-              type="button"
-              onClick={() => updateIsEditMode(true)}
-            >
-              &#9998;
-            </Button>
+            {isDeleteMode ? (
+                <DeleteMenu>
+                  Delete?
+                  <Button
+                    type="button"
+                    hoverColor="#00FF00"
+                    onClick={handleDelete}
+                    disabled={isDeleting}
+                  >
+                    &#10003;
+                  </Button>
+                  <Button
+                    type="button"
+                    hoverColor="#FF0000"
+                    onClick={() => updateIsDeleteMode(false)}
+                    disabled={isDeleting}
+                  >
+                    &#10005;
+                  </Button>
+                </DeleteMenu>
+            ):
+              (
+              <>
+                <Button
+                  type="button"
+                  onClick={() => updateIsEditMode(true)}
+                >
+                  &#9998;
+                </Button>
+                <Button
+                  type="button"
+                  onClick={() => updateIsDeleteMode(true)}
+                >
+                  &#128465;
+                </Button>
+              </>
+              )
+            }
           </h3>
         )
       }
@@ -111,4 +173,7 @@ function Project({ project, updateInstance, onUpdate }) {
   );
 }
 
-export default graphql(EXECUTE_ACTION, { name: 'updateInstance' })(Project);
+export default compose(
+  graphql(EXECUTE_ACTION, { name: 'updateInstance' }),
+  graphql(EXECUTE_ACTION, { name: 'deleteInstance' })
+)(Project);
