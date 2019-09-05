@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import compose from '@shopify/react-compose';
 import { graphql } from '@apollo/react-hoc';
 import styled from 'styled-components';
-import { withNoStack, EXECUTE_ACTION } from 'no-stack';
+import { withNoStack, EXECUTE_ACTION } from '@nostack/no-stack';
 
 import { CREATE_PROJECT_FOR_PROJECT_SOURCE_ACTION_ID } from '../../config';
 

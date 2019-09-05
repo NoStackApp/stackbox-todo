@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import './App.css';
-import { NoStackConsumer, LoginForm } from 'no-stack';
+import { NoStackConsumer, LoginForm } from '@nostack/no-stack';
 
 import NavBar from './components/NavBar';
 import Projects from './components/Projects';

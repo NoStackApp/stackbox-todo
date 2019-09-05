@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Source } from 'no-stack';
+import { Source } from '@nostack/no-stack';
 
 import Todo from '../Todo';
 import CreateTodoForm from '../CreateTodoForm';

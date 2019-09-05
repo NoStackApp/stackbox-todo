@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import compose from '@shopify/react-compose';
 import { graphql } from '@apollo/react-hoc';
 
-import { EXECUTE_ACTION } from 'no-stack';
+import { EXECUTE_ACTION } from '@nostack/no-stack';
 
 import { CREATE_TO_DO_FOR_TO_DO_SOURCE_ACTION_ID, CREATE_IS_COMPLETED_FOR_TO_DO_SOURCE_ACTION_ID } from '../../config';
 

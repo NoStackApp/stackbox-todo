@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { graphql } from '@apollo/react-hoc';
-import { EXECUTE_ACTION } from 'no-stack';
+import { EXECUTE_ACTION } from '@nostack/no-stack';
 
 import { UPDATE_IS_COMPLETED_FOR_TO_DO_SOURCE_ACTION_ID } from '../../config';
 import { IS_COMPLETED_FRAGMENT } from '../source-props/fragments';

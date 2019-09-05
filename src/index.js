@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { NoStackProvider, Console } from 'no-stack';
+import { NoStackProvider, Console } from '@nostack/no-stack';
 
 import { PLATFORM_ID } from './config';
 import './index.css';
