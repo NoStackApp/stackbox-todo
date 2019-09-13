@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "a314f12a8764821d0d8ab6bf05ddd62e",
+    "revision": "e24e7ce4398805aa2a0eab4d320b3fd2",
     "url": "/stackbox-todo/index.html"
   },
   {
-    "revision": "c95624676eb0f5e37b49",
+    "revision": "1700a5f65b1fd3f6145b",
     "url": "/stackbox-todo/static/css/main.584f321a.chunk.css"
   },
   {
@@ -12,8 +12,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/stackbox-todo/static/js/2.576a7729.chunk.js"
   },
   {
-    "revision": "c95624676eb0f5e37b49",
-    "url": "/stackbox-todo/static/js/main.d6dc25d1.chunk.js"
+    "revision": "1700a5f65b1fd3f6145b",
+    "url": "/stackbox-todo/static/js/main.20d6b655.chunk.js"
   },
   {
     "revision": "fd998375ec4067c6a45b",
