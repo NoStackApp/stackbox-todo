@@ -32,7 +32,7 @@ const Projects = ({ currentUserId }) => (
 
       if (error) return `Error: ${error.graphQLErrors}`;
 
-      const projects = data.sourceData.map(el => el.instance);
+      const projects = data.unitData.map(el => el.instance);
 
       return (
         <ProjectsStyleWrapper>

@@ -4,13 +4,13 @@ import { TYPE_PROJECT_ID } from '../../config';
 import { PROJECT_FRAGMENT } from './fragments';
 
 export const PROJECTS_FOR_CURRENT_USER_SOURCE_QUERY = gql`
-  query SOURCE(
+  query UNIT(
     $id: ID!
     $typeRelationships: String!
     $parameters: String
   ) {
-    sourceData(
-      sourceId: $id
+    unitData(
+      unitId: $id
       typeRelationships: $typeRelationships
       parameters: $parameters
     ) {
