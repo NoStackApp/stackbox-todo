@@ -32,9 +32,9 @@ function Todos({ projectId }) {
 
         if (error) return `Error: ${error.graphQLErrors}`;
 
-        const todos = data.sourceData.map(el => ({
+        const todos = data.unitData.map(el => ({
           ...el.instance,
-          isCompleted: el.children[0].instance,
+          isCompleted: el.children[0].instances[0].instance,
         }));
 
         return (

@@ -4,13 +4,13 @@ import { TYPE_TO_DO_ID, TYPE_IS_COMPLETED_ID } from '../../config';
 import { TODO_FRAGMENT, IS_COMPLETED_FRAGMENT } from './fragments';
 
 export const TODOS_FOR_CURRENT_PROJECT_SOURCE_QUERY = gql`
-  query SOURCE(
+  query unit(
     $id: ID!
     $typeRelationships: String!
     $parameters: String
   ) {
-    sourceData(
-      sourceId: $id
+    unitData(
+      unitId: $id
       typeRelationships: $typeRelationships
       parameters: $parameters
     ) {
@@ -18,8 +18,10 @@ export const TODOS_FOR_CURRENT_PROJECT_SOURCE_QUERY = gql`
         ...TodoParts
       }
       children {
-        instance {
-          ...IsCompletedParts
+        instances {
+          instance {
+            ...IsCompletedParts
+          }
         }
       }
     }
