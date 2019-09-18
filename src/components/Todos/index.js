@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Source } from '@nostack/no-stack';
+import { Unit } from '@nostack/no-stack';
 
 import Todo from '../Todo';
 import CreateTodoForm from '../CreateTodoForm';
@@ -21,7 +21,7 @@ function Todos({ projectId }) {
   };
 
   return (
-    <Source
+    <Unit
       id={SOURCE_TO_DO_SOURCE_ID}
       query={TODOS_FOR_CURRENT_PROJECT_SOURCE_QUERY}
       typeRelationships={TODOS_FOR_CURRENT_PROJECT_RELATIONSHIPS}
@@ -57,7 +57,7 @@ function Todos({ projectId }) {
           </>
         );
       }}
-    </Source>
+    </Unit>
   );
 }
 

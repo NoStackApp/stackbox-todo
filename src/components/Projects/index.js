@@ -1,5 +1,5 @@
 import React from 'react';
-import { Source } from '@nostack/no-stack';
+import { Unit } from '@nostack/no-stack';
 import styled from 'styled-components';
 
 import CreateProjectForm from '../CreateProjectForm';
@@ -21,7 +21,7 @@ const ProjectsStyleWrapper = styled.div`
 const parameters = {};
 
 const Projects = ({ currentUserId }) => (
-  <Source
+  <Unit
     id={SOURCE_PROJECT_SOURCE_ID}
     typeRelationships={PROJECTS_FOR_CURRENT_USER_RELATIONSHIPS}
     query={PROJECTS_FOR_CURRENT_USER_SOURCE_QUERY}
@@ -51,7 +51,7 @@ const Projects = ({ currentUserId }) => (
         </ProjectsStyleWrapper>
       );
     }}
-  </Source>
+  </Unit>
 );
 
 export default Projects;
