@@ -69,15 +69,20 @@ function CreateTodoForm({ projectId, createTodo, createIsCompleted, onAdd }) {
           },
           children: [
             {
-              instance: {
-                id: isCompletedData.instanceId,
-                value: isCompletedData.value,
-                __typename: 'Instance',
-              },
-              __typename: 'InstanceWithChildren',
+              instances: [
+                {
+                  instance: {
+                    id: isCompletedData.instanceId,
+                    value: isCompletedData.value,
+                    __typename: 'Instance',
+                  },
+                  __typename: 'InstanceWithTypedChildren',
+                },
+              ],
+              __typename: 'TypeWithInstances',
             },
           ],
-          __typename: 'InstanceWithChildren',
+          __typename: 'InstanceWithTypedChildren',
         };
 
         onAdd(newTodo)(cache);

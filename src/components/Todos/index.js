@@ -27,7 +27,7 @@ function Todos({ projectId }) {
       typeRelationships={TODOS_FOR_CURRENT_PROJECT_RELATIONSHIPS}
       parameters={parameters}
     >
-      {({loading, error, data, updateSourceAfterCreateAction, updateSourceAfterUpdateAction, updateSourceAfterDeleteAction }) => {
+      {({loading, error, data, updateUnitAfterCreateAction, updateUnitAfterUpdateAction, updateUnitAfterDeleteAction }) => {
         if (loading) return 'Loading...';
 
         if (error) return `Error: ${error.graphQLErrors}`;
@@ -39,7 +39,7 @@ function Todos({ projectId }) {
 
         return (
           <>
-            <CreateTodoForm projectId={projectId} onAdd={updateSourceAfterCreateAction} />
+            <CreateTodoForm projectId={projectId} onAdd={updateUnitAfterCreateAction} />
             <TodoListStyleWrapper>
               {
                 todos && todos.map(todo => (
@@ -48,8 +48,8 @@ function Todos({ projectId }) {
                     todo={todo}
                     projectId={projectId}
                     isCompleted={todo.isCompleted}
-                    onUpdate={updateSourceAfterUpdateAction}
-                    onDelete={updateSourceAfterDeleteAction}
+                    onUpdate={updateUnitAfterUpdateAction}
+                    onDelete={updateUnitAfterDeleteAction}
                   />
                 ))
               }

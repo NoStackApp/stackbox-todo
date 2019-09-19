@@ -27,7 +27,7 @@ const Projects = ({ currentUserId }) => (
     query={PROJECTS_FOR_CURRENT_USER_SOURCE_QUERY}
     parameters={parameters}
   >
-    {({ loading, error, data, updateSourceAfterCreateAction, updateSourceAfterUpdateAction, updateSourceAfterDeleteAction }) => {
+    {({ loading, error, data, updateUnitAfterCreateAction, updateUnitAfterUpdateAction, updateUnitAfterDeleteAction }) => {
       if (loading) return 'Loading...';
 
       if (error) return `Error: ${error.graphQLErrors}`;
@@ -36,15 +36,15 @@ const Projects = ({ currentUserId }) => (
 
       return (
         <ProjectsStyleWrapper>
-          <CreateProjectForm onAdd={updateSourceAfterCreateAction} />
+          <CreateProjectForm onAdd={updateUnitAfterCreateAction} />
           {
             projects && projects.map(project => (
               <Project
                 key={project.id}
                 project={project}
                 currentUserId={currentUserId}
-                onUpdate={updateSourceAfterUpdateAction}
-                onDelete={updateSourceAfterDeleteAction}
+                onUpdate={updateUnitAfterUpdateAction}
+                onDelete={updateUnitAfterDeleteAction}
               />
             ))
           }
