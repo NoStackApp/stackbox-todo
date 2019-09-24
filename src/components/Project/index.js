@@ -4,7 +4,7 @@ import { EXECUTE_ACTION } from '@nostack/no-stack';
 import compose from '@shopify/react-compose';
 import { graphql } from '@apollo/react-hoc';
 
-import { UPDATE_PROJECT_FOR_PROJECT_SOURCE_ACTION_ID, DELETE_PROJECT_FOR_PROJECT_SOURCE_ACTION_ID } from '../../config';
+import { UPDATE_PROJECT_FOR_PROJECTS_FOR_USER_ACTION_ID, DELETE_PROJECT_FOR_PROJECTS_FOR_USER_ACTION_ID } from '../../config';
 import { PROJECT_FRAGMENT } from '../source-props/fragments';
 
 import Todos from '../Todos';
@@ -59,7 +59,7 @@ function Project({ project, currentUserId, updateInstance, deleteInstance, onUpd
 
     await updateInstance({
       variables: {
-        actionId: UPDATE_PROJECT_FOR_PROJECT_SOURCE_ACTION_ID,
+        actionId: UPDATE_PROJECT_FOR_PROJECTS_FOR_USER_ACTION_ID,
         executionParameters: JSON.stringify({
           value: projectValue,
           instanceId: project.id,
@@ -78,7 +78,7 @@ function Project({ project, currentUserId, updateInstance, deleteInstance, onUpd
     try {
       await deleteInstance({
         variables: {
-          actionId: DELETE_PROJECT_FOR_PROJECT_SOURCE_ACTION_ID,
+          actionId: DELETE_PROJECT_FOR_PROJECTS_FOR_USER_ACTION_ID,
           executionParameters: JSON.stringify({
             parentInstanceId: currentUserId,
             instanceId: project.id,
